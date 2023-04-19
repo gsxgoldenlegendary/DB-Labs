@@ -34,7 +34,7 @@ select Reader.name
 from Reader,
      (select Borrow.reader_id, count(*)
       from Borrow
-      where Borrow.return_date is not null
+#       where Borrow.return_date is not null
       group by Borrow.reader_id
       having count(*) > 10) as ric
 where Reader.ID = ric.reader_id;
@@ -53,6 +53,7 @@ select Reader.ID, Reader.name, count(*) as sum
 from Reader,
      Borrow
 where Reader.ID = Borrow.reader_id
+  and Borrow.borrow_date LIKE '2022%'
 group by Reader.ID
 order by count(*) desc
 limit 10;
@@ -72,5 +73,6 @@ where Reader.ID = Borrow.reader_id
 select reader_id, count(book_id) as kind_of_books
 from (select distinct reader_id, book_id
       from borrow_info
+      where borrow_date > date_sub(curdate(), interval 1 year)
       group by reader_id, book_id) as b
 group by reader_id;
