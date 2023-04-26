@@ -188,3 +188,4 @@ VALUES ('b2', 'r1');
 
 INSERT INTO Reserve (book_ID, reader_ID, reserve_date)
 VALUES ('b2', 'r23', '2019-01-01');
+select * from Reserve where book_ID = 'b2';
