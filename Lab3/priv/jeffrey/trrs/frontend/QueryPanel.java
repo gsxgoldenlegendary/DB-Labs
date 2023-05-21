@@ -3,8 +3,8 @@ package priv.jeffrey.trrs.frontend;
 import javax.swing.*;
 import java.awt.*;
 
-//public class QueryPanel {
-//}
+public class QueryPanel {
+}
 //    private void createUI(final JFrame frame) {
 //        JPanel panel = new JPanel();
 //        LayoutManager layout = new FlowLayout();
