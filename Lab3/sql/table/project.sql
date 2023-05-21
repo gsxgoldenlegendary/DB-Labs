@@ -1,3 +1,4 @@
+USE trrs;
 DROP TABLE IF EXISTS project;
 CREATE TABLE project
 (

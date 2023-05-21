@@ -1,3 +1,4 @@
+USE trrs;
 DELIMITER //
 CREATE PROCEDURE teach_add(
     IN course_id_in INTEGER,

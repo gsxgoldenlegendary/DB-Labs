@@ -1,3 +1,4 @@
+USE trrs;
 INSERT INTO teacher (id, name, gender, title)
     VALUE (1, 'Alice', 1, 6);
 INSERT INTO teacher (id, name, gender, title)

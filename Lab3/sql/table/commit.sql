@@ -1,3 +1,4 @@
+USE trrs;
 DROP TABLE IF EXISTS commit;
 CREATE TABLE commit
 (

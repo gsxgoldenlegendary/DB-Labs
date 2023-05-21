@@ -1,3 +1,4 @@
+USE trrs;
 DROP TABLE IF EXISTS course;
 CREATE TABLE course
 (
