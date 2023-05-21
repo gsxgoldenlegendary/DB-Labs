@@ -3,7 +3,7 @@ CREATE TABLE paper
     id     INTEGER,
     title  CHARACTER(255),
     source CHARACTER(255),
-    year   DATE,
+    data   DATE,
     type   INTEGER,
     level  INTEGER,
 
