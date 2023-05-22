@@ -15,11 +15,11 @@ CREATE PROCEDURE publish_add(
 BEGIN
     DECLARE s INTEGER DEFAULT 0;
 
-    IF NOT EXISTS(SELECT COUNT(*) FROM paper WHERE paper.id = p_id) THEN
+    IF NOT EXISTS(SELECT * FROM paper WHERE paper.id = p_id) THEN
         INSERT INTO paper(id, title, source, year, type, level)
         VALUES (p_id, p_title, p_source, p_year, p_type, p_level);
     ELSE
-        IF NOT EXISTS(SELECT *
+        IF EXISTS(SELECT *
                       FROM paper
                       WHERE paper.id = p_id
                         AND paper.title = p_title

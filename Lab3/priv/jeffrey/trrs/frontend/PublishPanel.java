@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class PublishPanel extends JPanel implements ActionListener {
     JButton homeButton;
@@ -57,12 +56,11 @@ public class PublishPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Confirm")) {
-            System.out.println("Confirm");
             try {
                 String teacherId = teacherIdTextField.getText();
                 int teacherRanking = Integer.parseInt(teacherRankingTextField.getText());
                 int correspondingAuthor = correspondingAuthorCheckBox.isSelected() ? 1 : 0;
-                String paperId = paperIdTextField.getText();
+                int paperId = Integer.parseInt(paperIdTextField.getText());
                 String paperTitle = paperTitleTextField.getText();
                 String paperSource = paperSourceTextField.getText();
                 int paperYear = Integer.parseInt(paperYearTextField.getText());

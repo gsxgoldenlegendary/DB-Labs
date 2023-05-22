@@ -7,19 +7,18 @@ public class PublishHandle extends DBConnector {
     public void operate(String teacherId,
                         int teacherRanking,
                         int correspondingAuthor,
-                        String paperId,
+                        int paperId,
                         String paperTitle,
                         String paperSource,
                         int paperYear,
                         int paperType,
                         int paperLevel) throws SQLException {
         sql = "CALL publish_add(?,?,?,?,?,?,?,?,?)";
-        System.out.println(sql);
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, paperId);
+            preparedStatement.setInt(1, paperId);
             preparedStatement.setString(2, paperTitle);
             preparedStatement.setString(3, paperSource);
             preparedStatement.setInt(4, paperYear);
