@@ -27,6 +27,7 @@ public class MainFrame extends JFrame implements ActionListener{
 
         createPanels();
         getContentPane().add(homePanel, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(this);
     }
     public void createPanels(){
     	homePanel = new HomePanel();

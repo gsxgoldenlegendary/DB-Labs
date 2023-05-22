@@ -1,5 +1,5 @@
 USE trrs;
-DROP TABLE IF EXISTS publish;
+
 CREATE TABLE publish
 (
     paper_id                INTEGER,

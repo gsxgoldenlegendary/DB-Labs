@@ -1,5 +1,5 @@
 USE trrs;
-DROP TABLE IF EXISTS commit;
+
 CREATE TABLE commit
 (
     project_id     CHARACTER(255),

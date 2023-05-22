@@ -5,7 +5,7 @@ CREATE TABLE paper
     id     INTEGER,
     title  CHARACTER(255),
     source CHARACTER(255),
-    date   DATE,
+    year   INTEGER,
     type   INTEGER,
     level  INTEGER,
 

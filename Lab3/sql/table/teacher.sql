@@ -1,5 +1,5 @@
 USE trrs;
-DROP TABLE IF EXISTS teacher;
+
 CREATE TABLE teacher
 (
     id     CHARACTER(5),

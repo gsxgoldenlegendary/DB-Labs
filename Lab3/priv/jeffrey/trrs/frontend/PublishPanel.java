@@ -1,119 +1,82 @@
 package priv.jeffrey.trrs.frontend;
 
+import priv.jeffrey.trrs.backend.PublishHandle;
+import priv.jeffrey.trrs.backend.trans.PaperLevel;
+import priv.jeffrey.trrs.backend.trans.PaperType;
+
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Objects;
 
-public class PublishPanel extends JPanel implements ActionListener{
-    JButton addButton;
+public class PublishPanel extends JPanel implements ActionListener {
     JButton homeButton;
-    public PublishPanel(){
-        addButton = new JButton("add");
+    JTextField teacherIdTextField;
+    JTextField teacherRankingTextField;
+    JCheckBox correspondingAuthorCheckBox;
+    JTextField paperIdTextField;
+    JTextField paperTitleTextField;
+    JTextField paperSourceTextField;
+    JTextField paperYearTextField;
+    JComboBox<PaperType> paperTypeComboBox;
+    JComboBox<PaperLevel> paperLevelComboBox;
+    JButton confirmButton;
+
+    public PublishPanel() {
+
         homeButton = new JButton("Home");
 
-        add(addButton);
+        teacherIdTextField = new JTextField("Teacher ID");
+        teacherRankingTextField = new JTextField("Teacher Ranking");
+        correspondingAuthorCheckBox = new JCheckBox("Corresponding Author");
+        paperIdTextField = new JTextField("Paper ID");
+        paperTitleTextField = new JTextField("Paper Title");
+        paperSourceTextField = new JTextField("Paper Source");
+        paperYearTextField = new JTextField("Paper Year");
+        paperTypeComboBox = new JComboBox<>(PaperType.values());
+        paperLevelComboBox = new JComboBox<>(PaperLevel.values());
+        confirmButton = new JButton("Confirm");
+
         add(homeButton);
+
+        add(teacherIdTextField);
+        add(teacherRankingTextField);
+        add(correspondingAuthorCheckBox);
+        add(paperIdTextField);
+        add(paperTitleTextField);
+        add(paperSourceTextField);
+        add(paperYearTextField);
+        add(paperTypeComboBox);
+        add(paperLevelComboBox);
+        add(confirmButton);
+
+        confirmButton.addActionListener(this);
     }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Confirm")) {
+            System.out.println("Confirm");
+            try {
+                String teacherId = teacherIdTextField.getText();
+                int teacherRanking = Integer.parseInt(teacherRankingTextField.getText());
+                int correspondingAuthor = correspondingAuthorCheckBox.isSelected() ? 1 : 0;
+                String paperId = paperIdTextField.getText();
+                String paperTitle = paperTitleTextField.getText();
+                String paperSource = paperSourceTextField.getText();
+                int paperYear = Integer.parseInt(paperYearTextField.getText());
+                int paperType = paperTypeComboBox.getItemCount();
+                int paperLevel = paperLevelComboBox.getItemCount();
+                new PublishHandle().operate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+                        paperSource, paperYear, paperType, paperLevel);
+            } catch (SQLException e_sql) {
+                JOptionPane.showMessageDialog(this, e_sql.getMessage());
+                e_sql.printStackTrace();
+            } catch (NumberFormatException e_nfe) {
+                JOptionPane.showMessageDialog(this, "Invalid Input");
+            }
         }
+    }
 
 }
-//import java.awt.*;
-//        import java.awt.event.*;
-//        import javax.swing.*;
-//
-////本类继承自JFrame 实现了 ActionListener接口
-//public class Frame extends JFrame implements ActionListener {
-//    JPanel jpc;//存放组件的面板
-//    JScrollPane jsp;//滚动面板
-//    JButton jbAdd, jbRemove, jbReset;// 增加,删除按钮
-//    int index = 1;//开始的字符
-//
-//    //构造函数
-//    public Frame() {
-//        jpc = new JPanel();
-//        jpc.setLayout(new BoxLayout(jpc, BoxLayout.Y_AXIS));//盒子布局.从上到下
-//        jsp = new JScrollPane(jpc, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-//        add(jsp);
-//
-//        jbAdd = new JButton("增加");
-//        jbAdd.addActionListener(this);
-//        jbRemove = new JButton("删除");
-//        jbRemove.addActionListener(this);
-//        jbReset = new JButton("重置");
-//        jbReset.addActionListener(this);
-//        JPanel jps = new JPanel();
-//        jps.add(jbAdd);
-//        jps.add(jbRemove);
-//        jps.add(jbReset);
-//        add(jps, BorderLayout.SOUTH);
-//        setTitle("增删组件");
-//        setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        setSize(300, 220);//大小
-//        setLocationRelativeTo(null);//居中
-//    }
-//
-//    //main函数
-//    public static void main(String[] args) {
-//        new Frame().setVisible(true);//初始化并可见
-//    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        JButton jb = (JButton) e.getSource();
-//        if (jb == jbAdd) {//当点击添加按钮时
-//            jpc.add(new MyJPanel(index));//添加1个自己定义的面板组件
-//            index++;//自加1
-//            myUpdateUI();//刷新界面
-//        } else if (jb == jbRemove) {//当点击删除按钮时
-//            if (jpc.getComponentCount() > 0) { // 得到jpc里的MyJPanel的组件数量
-//                jpc.remove(jpc.getComponentCount() - 1);//删除末尾的一个组件 ,
-//                index -= 1;
-//                myUpdateUI();
-//            }
-//        } else if (jb == jbReset) {
-//            for (int i = 0; i < jpc.getComponentCount(); i++) {
-//                MyJPanel mjp = (MyJPanel) jpc.getComponent(i);
-//                //也就是说取值,可以根据文本框所在的位置来取
-//                System.out.println("第" + (i + 1) + "个文本框的值是" + mjp.getJTFValue());
-//                mjp.setJTFValue("");//清空,重置
-//                System.out.println("第" + (i + 1) + "个文本框的值已清空重置");
-//            }
-//        }
-//
-//    }
-//
-//    //刷新界面函数
-//    private void myUpdateUI() {
-//        SwingUtilities.updateComponentTreeUI(this);//添加或删除组件后,更新窗口
-//        JScrollBar jsb = jsp.getVerticalScrollBar();//得到垂直滚动条
-//        jsb.setValue(jsb.getMaximum());//把滚动条位置设置到最下面
-//    }
-//
-//}
-//
-////自定义一个JPanle类
-//class MyJPanel extends JPanel {
-//    public JTextField jtf;
-//
-//    public MyJPanel(int index) {
-//        JLabel jl = new JLabel("字符" + index);
-//        jtf = new JTextField(15);
-//        add(jl);
-//        add(jtf);
-//    }
-//
-//    //获取文本框的值
-//    public String getJTFValue() {
-//        return jtf.getText();
-//    }
-//
-//    //设置文本框的值
-//    public void setJTFValue(String value) {
-//        jtf.setText(value);
-//    }
-//}

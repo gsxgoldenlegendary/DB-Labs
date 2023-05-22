@@ -1,5 +1,5 @@
 USE trrs;
-DROP TABLE IF EXISTS teach;
+
 CREATE TABLE teach
 (
     course_id    CHARACTER(255),
