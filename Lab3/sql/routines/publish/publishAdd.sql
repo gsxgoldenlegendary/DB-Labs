@@ -69,4 +69,4 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL publish_add(2, 'paper2', 'source2', 2019, 2, 2, '2', 1, 1);
+#CALL publishAdd(2, 'paper2', 'source2', 2019, 2, 2, '1', 2, 0);

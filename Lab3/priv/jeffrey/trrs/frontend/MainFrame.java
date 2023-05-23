@@ -14,10 +14,6 @@ public class MainFrame extends JFrame implements ActionListener{
     TeachPanel teachPanel;
     QueryPanel queryPanel;
 
-    public static void main(String[] args) {
-        new MainFrame();
-    }
-
     public MainFrame() {
         super("Teaching & Researching Registration System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

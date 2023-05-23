@@ -35,7 +35,6 @@ public final class PublishPanel extends JPanel implements ActionListener {
     private int paperLevel;
 
     public PublishPanel() {
-
         homeButton = new JButton("Home");
         teacherIdTextField = new JTextField("Teacher ID");
         teacherRankingTextField = new JTextField("Teacher Ranking");
@@ -71,6 +70,7 @@ public final class PublishPanel extends JPanel implements ActionListener {
         updateButton.addActionListener(this);
         queryButton.addActionListener(this);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addButton)) {
@@ -85,40 +85,14 @@ public final class PublishPanel extends JPanel implements ActionListener {
     }
 
     private void addActionPerformed() {
-        getTeacherId();
-        getTeacherRanking();
-        correspondingAuthor = correspondingAuthorCheckBox.isSelected() ? 1 : 0;
-        getPaperId();
-        paperTitle = paperTitleTextField.getText();
-        if (paperTitle.length() > 255) {
-            JOptionPane.showMessageDialog(this, "Paper Title Too Long");
-            return;
-        }
-
-        paperSource = paperSourceTextField.getText();
-        if (paperSource.length() > 255) {
-            JOptionPane.showMessageDialog(this, "Paper Source Too Long");
-            return;
-        }
         try {
-            paperYear = Integer.parseInt(paperYearTextField.getText());
-            if (paperYear < 0 || paperYear > 2023) {
-                JOptionPane.showMessageDialog(this, "Paper Year Too Small Or Too Large");
-                return;
-            }
-        } catch (NumberFormatException e_nfe) {
-            JOptionPane.showMessageDialog(this, "Paper Year Not A Number");
-            return;
-        }
-
-        paperType = paperTypeComboBox.getItemCount();
-
-        paperLevel = paperLevelComboBox.getItemCount();
-
-        try {
+            getTeacherInformation();
+            getPaperInformation();
             new PublishHandle().operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
                     paperSource, paperYear, paperType, paperLevel);
             JOptionPane.showMessageDialog(this, "Publication Added");
+        } catch (IllegalArgumentException e_iae) {
+            e_iae.printStackTrace();
         } catch (SQLException e_sql) {
             JOptionPane.showMessageDialog(this, e_sql.getMessage());
             e_sql.printStackTrace();
@@ -126,46 +100,105 @@ public final class PublishPanel extends JPanel implements ActionListener {
     }
 
     private void deleteActionPerformed() {
-        getTeacherId();
-        getPaperId();
         try {
+            getTeacherId();
+            getPaperId();
             new PublishHandle().operateDelete(teacherId, paperId);
             JOptionPane.showMessageDialog(this, "Publication Deleted");
+        } catch (IllegalArgumentException e_iae) {
+            e_iae.printStackTrace();
         } catch (SQLException e_sql) {
             JOptionPane.showMessageDialog(this, e_sql.getMessage());
             e_sql.printStackTrace();
         }
-
     }
 
     private void updateActionPerformed() {
-
+        try {
+            getTeacherId();
+            getPaperId();
+            new PublishHandle().operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+                    paperSource, paperYear, paperType, paperLevel);
+            JOptionPane.showMessageDialog(this, "Publication Updated");
+        } catch (IllegalArgumentException e_iae) {
+            e_iae.printStackTrace();
+        } catch (SQLException e_sql) {
+            JOptionPane.showMessageDialog(this, e_sql.getMessage());
+            e_sql.printStackTrace();
+        }
     }
 
     private void queryActionPerformed() {
 
     }
-    private void getTeacherId() {
+
+    private void getTeacherId() throws IllegalArgumentException {
         teacherId = teacherIdTextField.getText();
         if (teacherId.length() > 5) {
             JOptionPane.showMessageDialog(this, "Teacher ID Too Long");
+            throw new IllegalArgumentException("Teacher ID Too Long");
         }
     }
 
-    private void getTeacherRanking() {
+    private void getTeacherRanking() throws IllegalArgumentException {
         try {
             teacherRanking = Integer.parseInt(teacherRankingTextField.getText());
         } catch (NumberFormatException e_nfe) {
             JOptionPane.showMessageDialog(this, "Invalid Author Ranking");
+            throw new IllegalArgumentException("Invalid Author Ranking");
         }
     }
 
-    private void getPaperId() {
+    private void getTeacherInformation() throws IllegalArgumentException {
+        getTeacherId();
+        getTeacherRanking();
+    }
+
+    private void getPaperId() throws IllegalArgumentException {
         try {
             paperId = Integer.parseInt(paperIdTextField.getText());
         } catch (NumberFormatException e_nfe) {
             JOptionPane.showMessageDialog(this, "Paper ID Not A Number");
+            throw new IllegalArgumentException("Paper ID Not A Number");
         }
     }
 
+    private void getPaperTitle() throws IllegalArgumentException {
+        paperTitle = paperTitleTextField.getText();
+        if (paperTitle.length() > 255) {
+            JOptionPane.showMessageDialog(this, "Paper Title Too Long");
+            throw new IllegalArgumentException("Paper Title Too Long");
+        }
+    }
+
+    private void getPaperSource() throws IllegalArgumentException {
+        paperSource = paperSourceTextField.getText();
+        if (paperSource.length() > 255) {
+            JOptionPane.showMessageDialog(this, "Paper Source Too Long");
+            throw new IllegalArgumentException("Paper Source Too Long");
+        }
+    }
+
+    private void getPaperYear() throws IllegalArgumentException {
+        try {
+            paperYear = Integer.parseInt(paperYearTextField.getText());
+            if (paperYear < 0 || paperYear > 2023) {
+                JOptionPane.showMessageDialog(this, "Paper Year Too Small Or Too Large");
+                throw new IllegalArgumentException("Paper Year Too Small Or Too Large");
+            }
+        } catch (NumberFormatException e_nfe) {
+            JOptionPane.showMessageDialog(this, "Paper Year Not A Number");
+            throw new IllegalArgumentException("Paper Year Not A Number");
+        }
+    }
+
+    private void getPaperInformation() throws IllegalArgumentException {
+        getPaperId();
+        getPaperTitle();
+        getPaperSource();
+        getPaperYear();
+        paperType = paperTypeComboBox.getItemCount();
+        paperLevel = paperLevelComboBox.getItemCount();
+        correspondingAuthor = correspondingAuthorCheckBox.isSelected() ? 1 : 0;
+    }
 }
