@@ -1,8 +1,8 @@
 package priv.jeffrey.trrs.frontend;
 
 import priv.jeffrey.trrs.backend.PublishHandle;
-import priv.jeffrey.trrs.backend.trans.PaperLevel;
-import priv.jeffrey.trrs.backend.trans.PaperType;
+import priv.jeffrey.trrs.backend.enums.PaperLevel;
+import priv.jeffrey.trrs.backend.enums.PaperType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -88,7 +88,7 @@ public final class PublishPanel extends JPanel implements ActionListener {
         try {
             getTeacherInformation();
             getPaperInformation();
-            new PublishHandle().operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+            PublishHandle.operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
                     paperSource, paperYear, paperType, paperLevel);
             JOptionPane.showMessageDialog(this, "Publication Added");
         } catch (IllegalArgumentException e_iae) {
@@ -103,7 +103,7 @@ public final class PublishPanel extends JPanel implements ActionListener {
         try {
             getTeacherId();
             getPaperId();
-            new PublishHandle().operateDelete(teacherId, paperId);
+            PublishHandle.operateDelete(teacherId, paperId);
             JOptionPane.showMessageDialog(this, "Publication Deleted");
         } catch (IllegalArgumentException e_iae) {
             e_iae.printStackTrace();
@@ -117,7 +117,7 @@ public final class PublishPanel extends JPanel implements ActionListener {
         try {
             getTeacherId();
             getPaperId();
-            new PublishHandle().operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+            PublishHandle.operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
                     paperSource, paperYear, paperType, paperLevel);
             JOptionPane.showMessageDialog(this, "Publication Updated");
         } catch (IllegalArgumentException e_iae) {
@@ -129,7 +129,15 @@ public final class PublishPanel extends JPanel implements ActionListener {
     }
 
     private void queryActionPerformed() {
-
+        try{
+            getTeacherId();
+            PublishHandle.operateQuery(teacherId);
+        } catch (IllegalArgumentException e_iae) {
+            e_iae.printStackTrace();
+        } catch (SQLException e_sql) {
+            JOptionPane.showMessageDialog(this, e_sql.getMessage());
+            e_sql.printStackTrace();
+        }
     }
 
     private void getTeacherId() throws IllegalArgumentException {

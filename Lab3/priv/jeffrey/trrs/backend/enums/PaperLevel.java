@@ -1,4 +1,4 @@
-package priv.jeffrey.trrs.backend.trans;
+package priv.jeffrey.trrs.backend.enums;
 
 public enum  PaperLevel {
     CCF_A,

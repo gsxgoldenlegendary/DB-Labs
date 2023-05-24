@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class MainFrame extends JFrame implements ActionListener{
+public class MainFrame extends JFrame implements ActionListener {
     HomePanel homePanel;
     PublishPanel publishPanel;
     CommitPanel commitPanel;
@@ -25,23 +25,34 @@ public class MainFrame extends JFrame implements ActionListener{
         getContentPane().add(homePanel, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(this);
     }
-    public void createPanels(){
-    	homePanel = new HomePanel();
+
+    public void createPanels() {
+        homePanel = new HomePanel();
         publishPanel = new PublishPanel();
         commitPanel = new CommitPanel();
         teachPanel = new TeachPanel();
         queryPanel = new QueryPanel();
         homePanel.publishButton.addActionListener(this);
         publishPanel.homeButton.addActionListener(this);
+        homePanel.commitButton.addActionListener(this);
+        //commitPanel.homeButton.addActionListener(this);
+        homePanel.teachButton.addActionListener(this);
+        teachPanel.homeButton.addActionListener(this);
+        homePanel.queryButton.addActionListener(this);
+        //queryPanel.homeButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Publish")){
+        if (e.getActionCommand().equals("Publish")) {
             getContentPane().remove(homePanel);
             getContentPane().add(publishPanel, BorderLayout.CENTER);
             SwingUtilities.updateComponentTreeUI(this);
-        }else if(e.getActionCommand().equals("Home")){
+        } else if (e.getActionCommand().equals("Teach")) {
+            getContentPane().remove(homePanel);
+            getContentPane().add(teachPanel, BorderLayout.CENTER);
+            SwingUtilities.updateComponentTreeUI(this);
+        } else if (e.getActionCommand().equals("Home")) {
             getContentPane().removeAll();
             getContentPane().add(homePanel, BorderLayout.CENTER);
             SwingUtilities.updateComponentTreeUI(this);

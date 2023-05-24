@@ -1,14 +1,18 @@
 package priv.jeffrey.trrs.backend;
 
 import java.sql.*;
+import java.util.List;
+import java.util.Vector;
 
 public class PublishHandle extends DBConnector {
 
-    private static final String PUBLISH_ADD_ROUTINE ="CALL publishAdd(?,?,?,?,?,?,?,?,?)";
-    private static final String publishDeleteRoutine="CALL publishDelete(?,?)";
-    private static final String publishUpdateRoutine="CALL publishUpdate(?,?,?,?,?,?,?,?,?)";
+    private static final String PUBLISH_ADD_ROUTINE = "CALL publishAdd(?,?,?,?,?,?,?,?,?)";
+    private static final String PUBLISH_DELETE_ROUTINE = "CALL publishDelete(?,?)";
+    private static final String PUBLISH_UPDATE_ROUTINE = "CALL publishUpdate(?,?,?,?,?,?,?,?,?)";
 
-    public void operateAdd(String teacherId,
+    private static final String PUBLISH_QUERY_ROUTINE = "SELECT * FROM publish WHERE publish.teacher_id = ?";
+
+    public static void operateAdd(String teacherId,
                            int teacherRanking,
                            int correspondingAuthor,
                            int paperId,
@@ -35,10 +39,11 @@ public class PublishHandle extends DBConnector {
             throw new RuntimeException(e);
         }
     }
-    public void operateDelete(String teacherId,
-                           int paperId
-                          ) throws SQLException {
-        structuredQueryLanguage = publishDeleteRoutine;
+
+    public static void operateDelete(String teacherId,
+                              int paperId
+    ) throws SQLException {
+        structuredQueryLanguage = PUBLISH_DELETE_ROUTINE;
         try {
             setConnection();
             preparedStatement.setInt(1, paperId);
@@ -49,16 +54,17 @@ public class PublishHandle extends DBConnector {
             throw new RuntimeException(e);
         }
     }
-    public void operateUpdate(String teacherId,
-                           int teacherRanking,
-                           int correspondingAuthor,
-                           int paperId,
-                           String paperTitle,
-                           String paperSource,
-                           int paperYear,
-                           int paperType,
-                           int paperLevel) throws SQLException {
-        structuredQueryLanguage = publishUpdateRoutine;
+
+    public static void operateUpdate(String teacherId,
+                              int teacherRanking,
+                              int correspondingAuthor,
+                              int paperId,
+                              String paperTitle,
+                              String paperSource,
+                              int paperYear,
+                              int paperType,
+                              int paperLevel) throws SQLException {
+        structuredQueryLanguage = PUBLISH_UPDATE_ROUTINE;
         try {
             setConnection();
             preparedStatement.setInt(1, paperId);
@@ -72,6 +78,32 @@ public class PublishHandle extends DBConnector {
             preparedStatement.setInt(9, correspondingAuthor);
             preparedStatement.executeUpdate();
             closeConnection();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Vector<Vector<String>> operateQuery(String teacherId) throws SQLException {
+        Vector<Vector<String>> result = new Vector<>();
+        structuredQueryLanguage = PUBLISH_QUERY_ROUTINE;
+        try {
+            setConnection();
+            preparedStatement.setString(1, teacherId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Vector<String> row = new Vector<>();
+                row.add(resultSet.getString("paper_title"));
+                row.add(resultSet.getString("paper_source"));
+                row.add(resultSet.getString("paper_id"));
+                row.add(resultSet.getString("paper_year"));
+                row.add(resultSet.getString("paper_type"));
+                row.add(resultSet.getString("paper_level"));
+                row.add(resultSet.getString("teacher_ranking"));
+                row.add(resultSet.getString("corresponding_author"));
+                result.add(row);
+            }
+            closeConnection();
+            return result;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
