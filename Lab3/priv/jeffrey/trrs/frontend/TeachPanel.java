@@ -1,5 +1,7 @@
 package priv.jeffrey.trrs.frontend;
 
+import priv.jeffrey.trrs.frontend.utilities.MyJCheckBox;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -15,7 +17,17 @@ public final class TeachPanel extends JPanel implements ActionListener , ListSel
         homeButton = new JButton("Home");
 
         wordList = new JList<>(words);
-        wordList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        wordList.setSelectionModel(new DefaultListSelectionModel() {
+            @Override
+            public void setSelectionInterval(int index0, int index1) {
+                if (super.isSelectedIndex(index0)) {
+                    super.removeSelectionInterval(index0, index1);
+                } else {
+                    super.addSelectionInterval(index0, index1);
+                }
+            }
+        });
+        wordList.setCellRenderer(new MyJCheckBox());
         wordList.addListSelectionListener(this);
         add(homeButton);
         add(wordList);

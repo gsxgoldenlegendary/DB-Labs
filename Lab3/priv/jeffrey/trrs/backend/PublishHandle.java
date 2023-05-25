@@ -1,7 +1,6 @@
 package priv.jeffrey.trrs.backend;
 
 import java.sql.*;
-import java.util.List;
 import java.util.Vector;
 
 public class PublishHandle extends DBConnector {
@@ -92,14 +91,10 @@ public class PublishHandle extends DBConnector {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Vector<String> row = new Vector<>();
-                row.add(resultSet.getString("paper_title"));
-                row.add(resultSet.getString("paper_source"));
+                row.add(resultSet.getString("teacher_id"));
                 row.add(resultSet.getString("paper_id"));
-                row.add(resultSet.getString("paper_year"));
-                row.add(resultSet.getString("paper_type"));
-                row.add(resultSet.getString("paper_level"));
-                row.add(resultSet.getString("teacher_ranking"));
-                row.add(resultSet.getString("corresponding_author"));
+                row.add(resultSet.getString("ranking"));
+                row.add(resultSet.getString("is_corresponding_author"));
                 result.add(row);
             }
             closeConnection();

@@ -8,7 +8,7 @@ public class DBConnector {
              "&serverTimezone=UTC";
     protected static final String USERNAME = "user_select";
     protected static final String PASSWORD = " ";
-    protected Connection connection = null;
+    protected static Connection connection = null;
     protected static PreparedStatement preparedStatement = null;
     protected static ResultSet resultSet = null;
 
