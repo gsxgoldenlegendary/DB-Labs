@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomePanel extends JPanel implements ActionListener{
+public class HomePanel extends JPanel implements ActionListener {
     static JButton publishButton;
     static JButton commitButton;
     static JButton teachButton;
     static JButton queryButton;
     Box box;
-    public HomePanel() {
 
-        box= Box.createVerticalBox();
+    public HomePanel() {
+        box = Box.createVerticalBox();
         add(box);
 
         publishButton = new JButton();
@@ -37,11 +37,16 @@ public class HomePanel extends JPanel implements ActionListener{
         queryButton.addActionListener(this);
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(publishButton)) {
             MainFrame.cardLayout.show(MainFrame.mainPanel, "Publish");
+        } else if (e.getSource().equals(commitButton)) {
+            MainFrame.cardLayout.show(MainFrame.mainPanel, "Commit");
+        } else if (e.getSource().equals(teachButton)) {
+            MainFrame.cardLayout.show(MainFrame.mainPanel, "Teach");
+        } else if (e.getSource().equals(queryButton)) {
+            MainFrame.cardLayout.show(MainFrame.mainPanel, "Query");
         }
     }
 }

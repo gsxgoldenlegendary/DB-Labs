@@ -10,7 +10,6 @@ public class PublishPanel extends JPanel {
     static AddPanel addPanel;
     static DeletePanel deletePanel;
     static UpdatePanel updatePanel;
-    static QueryPanel queryPanel;
 
     public PublishPanel() {
         cardLayout = new CardLayout();
@@ -25,8 +24,6 @@ public class PublishPanel extends JPanel {
         mainPanel.add(deletePanel, "Delete");
         updatePanel = new UpdatePanel();
         mainPanel.add(updatePanel, "Update");
-        queryPanel = new QueryPanel();
-        mainPanel.add(queryPanel, "Query");
         cardLayout.show(mainPanel, "Home");
     }
 }

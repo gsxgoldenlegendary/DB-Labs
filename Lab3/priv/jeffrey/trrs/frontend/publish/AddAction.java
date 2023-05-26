@@ -1,6 +1,6 @@
 package priv.jeffrey.trrs.frontend.publish;
 
-import priv.jeffrey.trrs.backend.PublishHandle;
+import priv.jeffrey.trrs.backend.PublishHandler;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ public class AddAction {
         try {
             getTeacherInformation();
             getPaperInformation();
-            PublishHandle.operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+            PublishHandler.operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
                     paperSource, paperYear, paperType, paperLevel);
             JOptionPane.showMessageDialog(panel, "论文发表情况登记成功");
         } catch (IllegalArgumentException e_iae) {

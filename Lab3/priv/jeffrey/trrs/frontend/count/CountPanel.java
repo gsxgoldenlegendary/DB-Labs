@@ -1,9 +1,6 @@
-package priv.jeffrey.trrs.frontend;
+package priv.jeffrey.trrs.frontend.count;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class QueryPanel {
+public class CountPanel {
 }
 //    private void createUI(final JFrame frame) {
 //        JPanel panel = new JPanel();

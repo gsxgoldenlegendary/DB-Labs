@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static priv.jeffrey.trrs.frontend.publish.DeleteAction.deleteActionPerformed;
+import static priv.jeffrey.trrs.frontend.publish.DeleteAction.*;
 
 public class DeletePanel extends JPanel implements ActionListener {
     Box mainBox;
@@ -16,6 +16,7 @@ public class DeletePanel extends JPanel implements ActionListener {
     Box paperIdBox;
     private static JButton backButton;
     private static JButton deleteButton;
+    private static JButton queryButton;
 
     public DeletePanel() {
         mainBox = Box.createVerticalBox();
@@ -32,6 +33,10 @@ public class DeletePanel extends JPanel implements ActionListener {
         deleteButton.setText("删除");
         deleteButton.addActionListener(this);
         mainBox.add(deleteButton);
+        queryButton = new JButton();
+        queryButton.setText("查询");
+        queryButton.addActionListener(this);
+        mainBox.add(queryButton);
 
     }
     @Override
@@ -40,6 +45,8 @@ public class DeletePanel extends JPanel implements ActionListener {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Home");
         } else if (e.getSource().equals(deleteButton)){
            deleteActionPerformed(this);
+        }else if (e.getSource().equals(queryButton)) {
+            queryActionPerformed(this);
         }
     }
 
@@ -70,3 +77,4 @@ public class DeletePanel extends JPanel implements ActionListener {
         mainBox.add(teacherIdBox);
     }
 }
+

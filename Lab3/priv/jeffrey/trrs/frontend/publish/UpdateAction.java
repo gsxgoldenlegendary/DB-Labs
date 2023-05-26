@@ -1,6 +1,6 @@
 package priv.jeffrey.trrs.frontend.publish;
 
-import priv.jeffrey.trrs.backend.PublishHandle;
+import priv.jeffrey.trrs.backend.PublishHandler;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class UpdateAction {
         try {
             getTeacherInformation();
             getPaperInformation();
-            PublishHandle.operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
+            PublishHandler.operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
                     paperSource, paperYear, paperType, paperLevel);
             JOptionPane.showMessageDialog(panel, "Publication Updated");
         } catch (IllegalArgumentException e_iae) {

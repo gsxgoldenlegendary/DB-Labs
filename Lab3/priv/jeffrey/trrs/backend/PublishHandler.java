@@ -3,7 +3,7 @@ package priv.jeffrey.trrs.backend;
 import java.sql.*;
 import java.util.Vector;
 
-public class PublishHandle extends DBConnector {
+public class PublishHandler extends DBConnector {
 
     private static final String PUBLISH_ADD_ROUTINE = "CALL publishAdd(?,?,?,?,?,?,?,?,?)";
     private static final String PUBLISH_DELETE_ROUTINE = "CALL publishDelete(?,?)";

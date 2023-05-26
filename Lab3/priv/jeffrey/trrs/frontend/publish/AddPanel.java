@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import static priv.jeffrey.trrs.frontend.publish.AddAction.addActionPerformed;
 
-
 public class AddPanel extends JPanel implements ActionListener {
     Box mainBox;
     public JLabel teacherIdLabel;
@@ -192,35 +191,4 @@ public class AddPanel extends JPanel implements ActionListener {
 
         mainBox.add(teacherIdBox);
     }
-
-
-//
-//    private void updateActionPerformed() {
-//        try {
-//            getTeacherId();
-//            getPaperId();
-//            PublishHandle.operateUpdate(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
-//                    paperSource, paperYear, paperType, paperLevel);
-//            JOptionPane.showMessageDialog(this, "Publication Updated");
-//        } catch (IllegalArgumentException e_iae) {
-//            e_iae.printStackTrace();
-//        } catch (SQLException e_sql) {
-//            JOptionPane.showMessageDialog(this, e_sql.getMessage());
-//            e_sql.printStackTrace();
-//        }
-//    }
-//
-//    private void queryActionPerformed() {
-//        try{
-//            getTeacherId();
-//            Vector<Vector<String>>queryResult=PublishHandle.operateQuery(teacherId);
-//            new JDialog(this,"Query Result",true);
-//        } catch (IllegalArgumentException e_iae) {
-//            e_iae.printStackTrace();
-//        } catch (SQLException e_sql) {
-//            JOptionPane.showMessageDialog(this, e_sql.getMessage());
-//            e_sql.printStackTrace();
-//        }
-//    }
-
 }

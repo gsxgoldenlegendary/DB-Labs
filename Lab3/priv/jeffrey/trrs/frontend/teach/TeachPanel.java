@@ -1,4 +1,4 @@
-package priv.jeffrey.trrs.frontend;
+package priv.jeffrey.trrs.frontend.teach;
 
 import priv.jeffrey.trrs.frontend.utilities.MyJCheckBox;
 
