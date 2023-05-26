@@ -45,6 +45,10 @@ public class HomePanel extends JPanel implements ActionListener {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Add");
         }else if (e.getSource().equals(deleteButton)) {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Delete");
+        }else if(e.getSource().equals(updateButton)) {
+            PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Update");
+        }else if(e.getSource().equals(queryButton)) {
+            PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Query");
         }
     }
 }
