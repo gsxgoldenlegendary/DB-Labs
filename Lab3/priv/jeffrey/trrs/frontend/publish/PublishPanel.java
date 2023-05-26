@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PublishPanel extends JPanel {
-    public static JPanel mainPanel;
-    public static CardLayout cardLayout;
-    public static HomePanel homePanel;
-    public static AddPanel addPanel;
+    static JPanel mainPanel;
+    static CardLayout cardLayout;
+    static HomePanel homePanel;
+    static AddPanel addPanel;
+    static DeletePanel deletePanel;
 
     public PublishPanel() {
 
@@ -19,6 +20,8 @@ public class PublishPanel extends JPanel {
         mainPanel.add(homePanel, "Home");
         addPanel = new AddPanel();
         mainPanel.add(addPanel, "Add");
+        deletePanel = new DeletePanel();
+        mainPanel.add(deletePanel, "Delete");
         cardLayout.show(mainPanel, "Home");
     }
 }

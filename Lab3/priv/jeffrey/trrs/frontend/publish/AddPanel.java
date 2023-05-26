@@ -1,58 +1,47 @@
 package priv.jeffrey.trrs.frontend.publish;
 
-import priv.jeffrey.trrs.backend.PublishHandle;
 import priv.jeffrey.trrs.backend.enums.PaperLevel;
 import priv.jeffrey.trrs.backend.enums.PaperType;
-import priv.jeffrey.trrs.frontend.utilities.MyJCheckBox;
-import priv.jeffrey.trrs.frontend.utilities.MyJComboBox;
-import priv.jeffrey.trrs.frontend.utilities.MyJTextField;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+
+import static priv.jeffrey.trrs.frontend.publish.AddAction.addActionPerformed;
 
 
 public class AddPanel extends JPanel implements ActionListener {
     Box mainBox;
     public JLabel teacherIdLabel;
-    JTextField teacherIdTextField;
+    public static JTextField teacherIdTextField;
     Box teacherIdBox;
     public JLabel teacherRankingLabel;
-    JTextField teacherRankingTextField;
+    public static JTextField teacherRankingTextField;
     Box teacherRankingBox;
     public JLabel correspondingAuthorLabel;
-    JCheckBox correspondingAuthorCheckBox;
+    public static JCheckBox correspondingAuthorCheckBox;
     Box correspondingAuthorBox;
     public JLabel paperIdLabel;
-    JTextField paperIdTextField;
+    public static JTextField paperIdTextField;
     Box paperIdBox;
     public JLabel paperTitleLabel;
-    JTextField paperTitleTextField;
+    public static JTextField paperTitleTextField;
     Box paperTitleBox;
     public JLabel paperSourceLabel;
-    JTextField paperSourceTextField;
+    public static JTextField paperSourceTextField;
     Box paperSourceBox;
     public JLabel paperYearLabel;
-    JTextField paperYearTextField;
+    public static JTextField paperYearTextField;
     Box paperYearBox;
     public JLabel paperTypeLabel;
-    JComboBox<PaperType> paperTypeComboBox;
+    public static JComboBox<PaperType> paperTypeComboBox;
     Box paperTypeBox;
     public JLabel paperLevelLabel;
-    JComboBox<PaperLevel> paperLevelComboBox;
+    public static JComboBox<PaperLevel> paperLevelComboBox;
     Box paperLevelBox;
-    public JButton backButton;
-    JButton addButton;
-    private String teacherId;
-    private int teacherRanking;
-    private int correspondingAuthor;
-    private int paperId;
-    private String paperTitle;
-    private String paperSource;
-    private int paperYear;
-    private int paperType;
-    private int paperLevel;
+    private static JButton backButton;
+    private static JButton addButton;
+
 
     public AddPanel() {
         mainBox = Box.createVerticalBox();
@@ -77,6 +66,16 @@ public class AddPanel extends JPanel implements ActionListener {
         addButton.addActionListener(this);
         mainBox.add(addButton);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(backButton)) {
+            PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Home");
+        } else if (e.getSource().equals(addButton)){
+            addActionPerformed(this);
+        }
+    }
+
     private void createCorrespondingAuthorComponent() {
         correspondingAuthorLabel = new JLabel();
         correspondingAuthorLabel.setText("是否为通讯作者：");
@@ -193,34 +192,8 @@ public class AddPanel extends JPanel implements ActionListener {
 
         mainBox.add(teacherIdBox);
     }
-        private void addActionPerformed() {
-        try {
-            getTeacherInformation();
-            getPaperInformation();
-            PublishHandle.operateAdd(teacherId, teacherRanking, correspondingAuthor, paperId, paperTitle,
-                    paperSource, paperYear, paperType, paperLevel);
-            JOptionPane.showMessageDialog(this, "Publication Added");
-        } catch (IllegalArgumentException e_iae) {
-            e_iae.printStackTrace();
-        } catch (SQLException e_sql) {
-            JOptionPane.showMessageDialog(this, e_sql.getMessage());
-            e_sql.printStackTrace();
-        }
-    }
 
-//    private void deleteActionPerformed() {
-//        try {
-//            getTeacherId();
-//            getPaperId();
-//            PublishHandle.operateDelete(teacherId, paperId);
-//            JOptionPane.showMessageDialog(this, "Publication Deleted");
-//        } catch (IllegalArgumentException e_iae) {
-//            e_iae.printStackTrace();
-//        } catch (SQLException e_sql) {
-//            JOptionPane.showMessageDialog(this, e_sql.getMessage());
-//            e_sql.printStackTrace();
-//        }
-//    }
+
 //
 //    private void updateActionPerformed() {
 //        try {
@@ -250,82 +223,4 @@ public class AddPanel extends JPanel implements ActionListener {
 //        }
 //    }
 
-    private void getTeacherId() throws IllegalArgumentException {
-        teacherId = teacherIdTextField.getText();
-        if (teacherId.length() > 5 || teacherId.length() < 1) {
-            JOptionPane.showMessageDialog(this, "Teacher ID Too Long");
-            throw new IllegalArgumentException("Teacher ID Too Long");
-        }
-    }
-
-    private void getTeacherRanking() throws IllegalArgumentException {
-        try {
-            teacherRanking = Integer.parseInt(teacherRankingTextField.getText());
-        } catch (NumberFormatException e_nfe) {
-            JOptionPane.showMessageDialog(this, "Invalid Author Ranking");
-            throw new IllegalArgumentException("Invalid Author Ranking");
-        }
-    }
-
-    private void getTeacherInformation() throws IllegalArgumentException {
-        getTeacherId();
-        getTeacherRanking();
-    }
-
-    private void getPaperId() throws IllegalArgumentException {
-        try {
-            paperId = Integer.parseInt(paperIdTextField.getText());
-        } catch (NumberFormatException e_nfe) {
-            JOptionPane.showMessageDialog(this, "Paper ID Not A Number");
-            throw new IllegalArgumentException("Paper ID Not A Number");
-        }
-    }
-
-    private void getPaperTitle() throws IllegalArgumentException {
-        paperTitle = paperTitleTextField.getText();
-        if (paperTitle.length() > 255) {
-            JOptionPane.showMessageDialog(this, "Paper Title Too Long");
-            throw new IllegalArgumentException("Paper Title Too Long");
-        }
-    }
-
-    private void getPaperSource() throws IllegalArgumentException {
-        paperSource = paperSourceTextField.getText();
-        if (paperSource.length() > 255) {
-            JOptionPane.showMessageDialog(this, "Paper Source Too Long");
-            throw new IllegalArgumentException("Paper Source Too Long");
-        }
-    }
-
-    private void getPaperYear() throws IllegalArgumentException {
-        try {
-            paperYear = Integer.parseInt(paperYearTextField.getText());
-            if (paperYear < 0 || paperYear > 2023) {
-                JOptionPane.showMessageDialog(this, "Paper Year Too Small Or Too Large");
-                throw new IllegalArgumentException("Paper Year Too Small Or Too Large");
-            }
-        } catch (NumberFormatException e_nfe) {
-            JOptionPane.showMessageDialog(this, "Paper Year Not A Number");
-            throw new IllegalArgumentException("Paper Year Not A Number");
-        }
-    }
-
-    private void getPaperInformation() throws IllegalArgumentException {
-        getPaperId();
-        getPaperTitle();
-        getPaperSource();
-        getPaperYear();
-        paperType = paperTypeComboBox.getItemCount();
-        paperLevel = paperLevelComboBox.getItemCount();
-        correspondingAuthor = correspondingAuthorCheckBox.isSelected() ? 1 : 0;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(backButton)) {
-            PublishPanel.cardLayout.show(PublishPanel.mainPanel, "返回上一页面");
-        } else if (e.getSource().equals(addButton)){
-            addActionPerformed();
-        }
-    }
 }

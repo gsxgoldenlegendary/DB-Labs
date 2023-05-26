@@ -7,11 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomePanel extends JPanel implements ActionListener {
-    public final JButton homeButton;
-    public final JButton addButton;
-    public final JButton deleteButton;
-    public final JButton updateButton;
-    public final JButton queryButton;
+    static JButton homeButton;
+    static JButton addButton;
+    static JButton deleteButton;
+    static JButton updateButton;
+    static JButton queryButton;
 
     public HomePanel(){
         homeButton = new JButton();
@@ -33,6 +33,9 @@ public class HomePanel extends JPanel implements ActionListener {
 
         homeButton.addActionListener(this);
         addButton.addActionListener(this);
+        deleteButton.addActionListener(this);
+        updateButton.addActionListener(this);
+        queryButton.addActionListener(this);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -40,6 +43,8 @@ public class HomePanel extends JPanel implements ActionListener {
             MainFrame.cardLayout.show(MainFrame.mainPanel, "Home");
         }else if(e.getSource().equals(addButton)){
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Add");
+        }else if (e.getSource().equals(deleteButton)) {
+            PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Delete");
         }
     }
 }
