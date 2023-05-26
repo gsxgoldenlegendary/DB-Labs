@@ -56,11 +56,11 @@ BEGIN
     ELSE
         CASE s
             WHEN 1 THEN SIGNAL SQLSTATE '45021'
-                SET MESSAGE_TEXT = 'Publication not found, no need to update.';
+                SET MESSAGE_TEXT = '该发表情况不存在，无需更新。';
             WHEN 2 THEN SIGNAL SQLSTATE '45022'
-                SET MESSAGE_TEXT = 'Corresponding author has already existed.';
+                SET MESSAGE_TEXT = '该论文已有通讯作者。';
             WHEN 3 THEN SIGNAL SQLSTATE '45023'
-                SET MESSAGE_TEXT = 'Ranking has already existed.';
+                SET MESSAGE_TEXT = '该论文已有该排名的作者。';
             END CASE;
         ROLLBACK;
     END IF;

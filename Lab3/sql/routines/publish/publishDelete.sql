@@ -33,11 +33,11 @@ BEGIN
         ELSE
             CASE s
                 WHEN 1 THEN SIGNAL SQLSTATE '45011'
-                    SET MESSAGE_TEXT = 'Paper not exists';
+                    SET MESSAGE_TEXT = '该论文不存在。';
                 WHEN 2 THEN SIGNAL SQLSTATE '45012'
-                    SET MESSAGE_TEXT = 'Teacher not exists';
+                    SET MESSAGE_TEXT = '该教师不存在。';
                 WHEN 3 THEN SIGNAL SQLSTATE '45013'
-                    SET MESSAGE_TEXT = 'Publication not exists';
+                    SET MESSAGE_TEXT = '该发表情况不存在。';
                 END CASE;
         END IF;
     END IF;

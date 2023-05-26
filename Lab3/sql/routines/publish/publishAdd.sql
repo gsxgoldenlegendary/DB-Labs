@@ -55,15 +55,15 @@ BEGIN
     ELSE
         CASE s
             WHEN 1 THEN SIGNAL SQLSTATE '45001'
-                SET MESSAGE_TEXT = 'Paper has already existed and the information is different.';
+                SET MESSAGE_TEXT = '该论文情况已经存在，但是信息不一致。';
             WHEN 2 THEN SIGNAL SQLSTATE '45002'
-                SET MESSAGE_TEXT = 'Teacher does not exist.';
+                SET MESSAGE_TEXT = '该教师不存在。';
             WHEN 3 THEN SIGNAL SQLSTATE '45003'
-                SET MESSAGE_TEXT = 'Corresponding author has already existed.';
+                SET MESSAGE_TEXT = '该论文已经有通讯作者。';
             WHEN 4 THEN SIGNAL SQLSTATE '45004'
-                SET MESSAGE_TEXT = 'Ranking has already existed.';
+                SET MESSAGE_TEXT = '该论文已经有该排名的作者。';
             WHEN 5 THEN SIGNAL SQLSTATE '45005'
-                SET MESSAGE_TEXT = 'Publication has already existed.';
+                SET MESSAGE_TEXT = '该发表信息已经登记';
             END CASE;
     END IF;
 END //
