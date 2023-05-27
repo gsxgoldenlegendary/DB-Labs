@@ -8,7 +8,6 @@ public class PublishHandler extends DBConnector {
     private static final String PUBLISH_ADD_ROUTINE = "CALL publishAdd(?,?,?,?,?,?,?,?,?)";
     private static final String PUBLISH_DELETE_ROUTINE = "CALL publishDelete(?,?)";
     private static final String PUBLISH_UPDATE_ROUTINE = "CALL publishUpdate(?,?,?,?,?,?,?,?,?)";
-
     private static final String PUBLISH_QUERY_ROUTINE = "SELECT * FROM publish WHERE publish.teacher_id = ?";
 
     public static void operateAdd(String teacherId,

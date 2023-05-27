@@ -1,6 +1,5 @@
 package priv.jeffrey.trrs.backend;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -9,7 +8,8 @@ public class CommitHandler extends DBConnector {
     private static final String COMMIT_ADD_ROUTINE = "CALL commitAdd(?,?,?,?)";
     private static final String PROJECT_UPDATE_ROUTINE = "CALL projectUpdate(?,?,?,?,?,?,?)";
     private static final String COMMIT_UPDATE_ROUTINE = "CALL commitUpdate(?,?,?,?)";
-
+    private static final String COMMIT_DELETE_ROUTINE = "CALL commitDelete(?)";
+    private static final String COMMIT_QUERY_ROUTINE = "SELECT * FROM commit WHERE project_id = ?";
     public static void actionAdd(
             String projectId,
             String projectName,
@@ -91,7 +91,6 @@ public class CommitHandler extends DBConnector {
                 count++;
             }
             connection.commit();
-
         } catch (SQLException e_sql) {
             connection.rollback();
             throw e_sql;
@@ -99,6 +98,42 @@ public class CommitHandler extends DBConnector {
             throw new RuntimeException(e);
         } finally {
             connection.setAutoCommit(true);
+            closeConnection();
+        }
+    }
+
+    public static void actionDelete(String projectId) throws SQLException {
+        try {
+            setConnection();
+            preparedStatement = connection.prepareStatement(COMMIT_DELETE_ROUTINE);
+            preparedStatement.setString(1, projectId);
+            preparedStatement.executeUpdate();
+        }  catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public static Vector<Vector<String>> actionQuery(String projectId) throws SQLException {
+        try {
+            setConnection();
+            preparedStatement = connection.prepareStatement(COMMIT_QUERY_ROUTINE);
+            preparedStatement.setString(1, projectId);
+            resultSet = preparedStatement.executeQuery();
+            Vector<Vector<String>> result = new Vector<>();
+            while (resultSet.next()) {
+                Vector<String> row = new Vector<>();
+                row.add(resultSet.getString("project_id"));
+                row.add(resultSet.getString("teacher_id"));
+                row.add(resultSet.getString("ranking"));
+                row.add(resultSet.getString("commit_funding"));
+                result.add(row);
+            }
+            return result;
+        }  catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
             closeConnection();
         }
     }

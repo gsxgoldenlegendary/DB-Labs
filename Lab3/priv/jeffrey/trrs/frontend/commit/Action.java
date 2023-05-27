@@ -3,6 +3,7 @@ package priv.jeffrey.trrs.frontend.commit;
 import priv.jeffrey.trrs.backend.CommitHandler;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.Vector;
 
@@ -20,6 +21,50 @@ public class Action {
     private static Vector<String> teacherIdList;
     private static Vector<Float> teacherExpenseList;
     private static JPanel panel;
+    private static Vector<Vector<String>> queryResult;
+    private static void showQueryResult() {
+        if (queryResult == null) {
+            JOptionPane.showMessageDialog(panel, "查询结果为空");
+            return;
+        }
+        Object[] columns = {"项目号","教师工号","教师排名","教师承担经费"};
+        DefaultTableModel model = new DefaultTableModel(null, columns);
+        JTable table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        for (Vector<String> row : queryResult) {
+            model.addRow(row);
+        }
+        JOptionPane.showMessageDialog(panel, scrollPane);
+    }
+    static void queryActionPerformed(JPanel queryPanel) {
+        panel = queryPanel;
+        try {
+            projectId = DeleteQueryPanel.projectIdTextField.getText();
+            if (projectId.length() > 255 || projectId.length() < 1) {
+                throw new IllegalArgumentException("项目编号长度不合法");
+            }
+            queryResult= CommitHandler.actionQuery(projectId);
+            showQueryResult();
+        } catch (IllegalArgumentException | SQLException e) {
+            JOptionPane.showMessageDialog(panel, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    static void deleteActionPerformed(JPanel deletePanel) {
+        panel = deletePanel;
+        try {
+            projectId = DeleteQueryPanel.projectIdTextField.getText();
+            if (projectId.length() > 255 || projectId.length() < 1) {
+                throw new IllegalArgumentException("项目编号长度不合法");
+            }
+            CommitHandler.actionDelete(projectId);
+            JOptionPane.showMessageDialog(panel, "项目承担情况删除成功");
+        } catch (IllegalArgumentException | SQLException e) {
+            JOptionPane.showMessageDialog(panel, e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     static void addActionPerformed(JPanel addPanel) {
         panel = addPanel;
