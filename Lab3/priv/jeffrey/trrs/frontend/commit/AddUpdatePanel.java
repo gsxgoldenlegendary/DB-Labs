@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import static priv.jeffrey.trrs.frontend.commit.Action.addActionPerformed;
+import static priv.jeffrey.trrs.frontend.commit.Action.updateActionPerformed;
 import static priv.jeffrey.trrs.frontend.commit.AddUpdatePanel.*;
 
 public class AddUpdatePanel extends JPanel implements ActionListener {
@@ -83,6 +84,8 @@ public class AddUpdatePanel extends JPanel implements ActionListener {
             CommitPanel.cardLayout.show(CommitPanel.mainPanel, "Home");
         } else if (e.getSource().equals(addButton)) {
             addActionPerformed(this);
+        }else if(e.getSource().equals(updateButton)){
+            updateActionPerformed(this);
         } else if (e.getSource().equals(addTeacherButton)) {
             createTeacherComponent();
         } else if (e.getSource().equals(deleteTeacherButton)) {
