@@ -12,11 +12,9 @@ public class DBConnector {
     protected static PreparedStatement preparedStatement = null;
     protected static ResultSet resultSet = null;
 
-    protected static String structuredQueryLanguage ="";
     protected static void setConnection()throws SQLException, ClassNotFoundException{
         Class.forName(JAVA_DATABASE_CONNECTOR_DRIVER);
         connection = DriverManager.getConnection(DATABASE_UNIFORM_RESOURCE_LOCATOR, USERNAME, PASSWORD);
-        preparedStatement = connection.prepareStatement(structuredQueryLanguage);
     }
     protected static void closeConnection()throws SQLException{
         preparedStatement.close();

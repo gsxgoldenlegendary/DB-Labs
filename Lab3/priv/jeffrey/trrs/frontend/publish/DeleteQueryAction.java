@@ -8,9 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import static priv.jeffrey.trrs.frontend.publish.DeletePanel.*;
+import static priv.jeffrey.trrs.frontend.publish.DeleteQueryPanel.*;
 
-public class DeleteAction {
+public class DeleteQueryAction {
     private static String teacherId;
     private static int paperId;
     private static JPanel panel;

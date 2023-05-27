@@ -41,7 +41,6 @@ public class AddPanel extends JPanel implements ActionListener {
     private static JButton backButton;
     private static JButton addButton;
 
-
     public AddPanel() {
         mainBox = Box.createVerticalBox();
         add(mainBox);

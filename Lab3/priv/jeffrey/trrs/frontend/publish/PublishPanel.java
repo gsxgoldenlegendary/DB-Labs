@@ -8,7 +8,7 @@ public class PublishPanel extends JPanel {
     static CardLayout cardLayout;
     static HomePanel homePanel;
     static AddPanel addPanel;
-    static DeletePanel deletePanel;
+    static DeleteQueryPanel deleteQueryPanel;
     static UpdatePanel updatePanel;
 
     public PublishPanel() {
@@ -20,8 +20,8 @@ public class PublishPanel extends JPanel {
         mainPanel.add(homePanel, "Home");
         addPanel = new AddPanel();
         mainPanel.add(addPanel, "Add");
-        deletePanel = new DeletePanel();
-        mainPanel.add(deletePanel, "Delete");
+        deleteQueryPanel = new DeleteQueryPanel();
+        mainPanel.add(deleteQueryPanel, "Delete");
         updatePanel = new UpdatePanel();
         mainPanel.add(updatePanel, "Update");
         cardLayout.show(mainPanel, "Home");

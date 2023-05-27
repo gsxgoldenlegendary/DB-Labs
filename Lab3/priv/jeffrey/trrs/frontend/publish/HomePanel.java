@@ -13,7 +13,7 @@ public class HomePanel extends JPanel implements ActionListener {
     static JButton updateButton;
 
 
-    public HomePanel(){
+    public HomePanel() {
         homeButton = new JButton();
         homeButton.setText("返回主页面");
         addButton = new JButton();
@@ -33,15 +33,16 @@ public class HomePanel extends JPanel implements ActionListener {
         deleteButton.addActionListener(this);
         updateButton.addActionListener(this);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(homeButton)){
+        if (e.getSource().equals(homeButton)) {
             MainFrame.cardLayout.show(MainFrame.mainPanel, "Home");
-        }else if(e.getSource().equals(addButton)){
+        } else if (e.getSource().equals(addButton)) {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Add");
-        }else if (e.getSource().equals(deleteButton)) {
+        } else if (e.getSource().equals(deleteButton)) {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Delete");
-        }else if(e.getSource().equals(updateButton)) {
+        } else if (e.getSource().equals(updateButton)) {
             PublishPanel.cardLayout.show(PublishPanel.mainPanel, "Update");
         }
     }

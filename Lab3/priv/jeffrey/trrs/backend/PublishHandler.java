@@ -20,9 +20,9 @@ public class PublishHandler extends DBConnector {
                            int paperYear,
                            int paperType,
                            int paperLevel) throws SQLException {
-        structuredQueryLanguage = PUBLISH_ADD_ROUTINE;
         try {
             setConnection();
+            preparedStatement = connection.prepareStatement(PUBLISH_ADD_ROUTINE);
             preparedStatement.setInt(1, paperId);
             preparedStatement.setString(2, paperTitle);
             preparedStatement.setString(3, paperSource);
@@ -33,18 +33,21 @@ public class PublishHandler extends DBConnector {
             preparedStatement.setInt(8, teacherRanking);
             preparedStatement.setInt(9, correspondingAuthor);
             preparedStatement.executeUpdate();
-            closeConnection();
+
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }finally {
+            closeConnection();
         }
     }
 
     public static void operateDelete(String teacherId,
                               int paperId
     ) throws SQLException {
-        structuredQueryLanguage = PUBLISH_DELETE_ROUTINE;
+
         try {
             setConnection();
+            preparedStatement = connection.prepareStatement(PUBLISH_DELETE_ROUTINE);
             preparedStatement.setInt(1, paperId);
             preparedStatement.setString(2, teacherId);
             preparedStatement.executeUpdate();
@@ -63,9 +66,9 @@ public class PublishHandler extends DBConnector {
                               int paperYear,
                               int paperType,
                               int paperLevel) throws SQLException {
-        structuredQueryLanguage = PUBLISH_UPDATE_ROUTINE;
         try {
             setConnection();
+            preparedStatement = connection.prepareStatement(PUBLISH_UPDATE_ROUTINE);
             preparedStatement.setInt(1, paperId);
             preparedStatement.setString(2, paperTitle);
             preparedStatement.setString(3, paperSource);
@@ -84,9 +87,9 @@ public class PublishHandler extends DBConnector {
 
     public static Vector<Vector<String>> operateQuery(String teacherId) throws SQLException {
         Vector<Vector<String>> result = new Vector<>();
-        structuredQueryLanguage = PUBLISH_QUERY_ROUTINE;
         try {
             setConnection();
+            preparedStatement = connection.prepareStatement(PUBLISH_QUERY_ROUTINE);
             preparedStatement.setString(1, teacherId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

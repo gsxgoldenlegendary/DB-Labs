@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static priv.jeffrey.trrs.frontend.publish.DeleteAction.*;
+import static priv.jeffrey.trrs.frontend.publish.DeleteQueryAction.*;
 
-public class DeletePanel extends JPanel implements ActionListener {
+public class DeleteQueryPanel extends JPanel implements ActionListener {
     Box mainBox;
     public JLabel teacherIdLabel;
     public static JTextField teacherIdTextField;
@@ -18,7 +18,7 @@ public class DeletePanel extends JPanel implements ActionListener {
     private static JButton deleteButton;
     private static JButton queryButton;
 
-    public DeletePanel() {
+    public DeleteQueryPanel() {
         mainBox = Box.createVerticalBox();
         add(mainBox);
         backButton = new JButton();
