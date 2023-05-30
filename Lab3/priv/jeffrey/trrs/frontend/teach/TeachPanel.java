@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-import static priv.jeffrey.trrs.frontend.teach.Action.addActionPerformed;
+import static priv.jeffrey.trrs.frontend.teach.Action.*;
 
 public final class TeachPanel extends JPanel implements ActionListener {
    static Box mainBox;
@@ -137,9 +137,15 @@ public final class TeachPanel extends JPanel implements ActionListener {
             deleteTeacherComponent();
         }else if(e.getSource().equals(addButton)) {
             addActionPerformed(this);
+        }else if(e.getSource().equals(updateButton)) {
+            updateActionPerformed(this);
+        }else if(e.getSource().equals(deleteButton)) {
+            deleteActionPerformed(this);
+        }else if(e.getSource().equals(searchButton)) {
+            searchActionPerformed(this);
         }
     }
-    private void deleteTeacherComponent() {
+    static void deleteTeacherComponent() {
         if (count == 1) {
             return;
         }
@@ -149,7 +155,7 @@ public final class TeachPanel extends JPanel implements ActionListener {
         count--;
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
-    private void createTeacherComponent() {
+    static void createTeacherComponent() {
         Box teacherBox = Box.createHorizontalBox();
         JLabel teacherIdLabel = new JLabel();
         teacherIdLabel.setText("教师" + count + "工号");
@@ -172,6 +178,6 @@ public final class TeachPanel extends JPanel implements ActionListener {
         teacherIdTextFieldVector.add(teacherIdTextField);
         teacherHoursTextFieldVector.add(teacherHoursTextField);
         mainBox.add(teacherBox);
-        SwingUtilities.updateComponentTreeUI(this);
+        SwingUtilities.updateComponentTreeUI(mainBox);
     }
 }

@@ -17,7 +17,6 @@ public class HomePanel extends JPanel implements ActionListener {
 
         publishButton = new JButton();
         publishButton.setText("登记科研成果情况");
-
         commitButton = new JButton("登记承担项目情况");
         teachButton = new JButton("登记主讲课程情况");
         queryButton = new JButton("查询统计");

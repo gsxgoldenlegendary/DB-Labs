@@ -15,17 +15,80 @@ public class Action {
     private static int courseTerm;
     private static Vector<String> teacherIdList;
     private static Vector<Integer> teacherHoursList;
+    private static JPanel panel;
+
+    private static void showSearchResult(Vector<Vector<String>> searchResult) {
+        if (searchResult.size() <= 1) {
+            JOptionPane.showMessageDialog(panel, "未找到相关课程");
+            return;
+        }
+        TeachPanel.courseIdTextField.setText(searchResult.get(0).get(0));
+        TeachPanel.courseNameTextField.setText(searchResult.get(0).get(1));
+        TeachPanel.courseTotalHoursTextField.setText(searchResult.get(0).get(2));
+        TeachPanel.coursePropertyTextField.setText(searchResult.get(0).get(3));
+        while (TeachPanel.count != 1) {
+            TeachPanel.deleteTeacherComponent();
+        }
+        for (int i = 1; i < searchResult.size(); i++) {
+            TeachPanel.createTeacherComponent();
+            TeachPanel.teacherIdTextFieldVector.get(i - 1).setText(searchResult.get(i).get(0));
+            TeachPanel.teacherHoursTextFieldVector.get(i - 1).setText(searchResult.get(i).get(1));
+            TeachPanel.courseYearTextField.setText(searchResult.get(i).get(2));
+            TeachPanel.courseSemesterComboBox.setSelectedIndex(Integer.parseInt(searchResult.get(i).get(3)) );
+        }
+
+    }
+
+    static void searchActionPerformed(JPanel searchPanel) {
+        panel = searchPanel;
+        try {
+            courseId = TeachPanel.courseIdTextField.getText();
+            if (courseId.length() > 255 || courseId.length() < 1) {
+                throw new IllegalArgumentException("课程编号长度不合法");
+            }
+            showSearchResult(TeachHandler.actionSearch(courseId));
+        } catch (IllegalArgumentException | SQLException e) {
+            JOptionPane.showMessageDialog(searchPanel, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    static void deleteActionPerformed(JPanel deletePanel) {
+        try {
+            courseId = TeachPanel.courseIdTextField.getText();
+            if (courseId.length() > 255 || courseId.length() < 1) {
+                throw new IllegalArgumentException("课程编号长度不合法");
+            }
+            TeachHandler.actionDelete(courseId);
+            JOptionPane.showMessageDialog(deletePanel, "删除成功");
+        } catch (IllegalArgumentException | SQLException e) {
+            JOptionPane.showMessageDialog(deletePanel, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    static void updateActionPerformed(JPanel updatePanel) {
+        try {
+            getCourseInfo();
+            getTeacherInfo();
+            TeachHandler.actionUpdate(courseId, courseName, courseTotalHours, courseProperty, courseYear, courseTerm,
+                    teacherIdList, teacherHoursList);
+            JOptionPane.showMessageDialog(updatePanel, "修改成功");
+        } catch (IllegalArgumentException | SQLException e) {
+            JOptionPane.showMessageDialog(updatePanel, e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     static void addActionPerformed(JPanel addPanel) {
-        JPanel panel = addPanel;
         try {
             getCourseInfo();
             getTeacherInfo();
             TeachHandler.actionAdd(courseId, courseName, courseTotalHours, courseProperty, courseYear, courseTerm,
                     teacherIdList, teacherHoursList);
-            JOptionPane.showMessageDialog(panel, "添加成功");
+            JOptionPane.showMessageDialog(addPanel, "添加成功");
         } catch (IllegalArgumentException | SQLException e) {
-            JOptionPane.showMessageDialog(panel, e.getMessage());
+            JOptionPane.showMessageDialog(addPanel, e.getMessage());
             e.printStackTrace();
         }
     }
