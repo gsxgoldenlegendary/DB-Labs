@@ -1,6 +1,7 @@
 package priv.jeffrey.trrs.backend;
 
 import java.sql.*;
+import java.util.Vector;
 
 public class DBConnector {
     protected static final String JAVA_DATABASE_CONNECTOR_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -19,5 +20,19 @@ public class DBConnector {
     protected static void closeConnection()throws SQLException{
         preparedStatement.close();
         connection.close();
+    }
+    public void add(Vector<Vector<Object>> panelInfoVectorVector)throws SQLException{
+
+
+
+    }
+    public void update(Vector<Vector<Object>> panelInfoArray)throws SQLException{
+
+    }
+    public void delete(Vector<Vector<Object>> panelInfoArray)throws SQLException{
+
+    }
+    public Vector<Vector<Object>> search(Vector<Vector<Object>> panelInfoArray)throws SQLException{
+        return null;
     }
 }

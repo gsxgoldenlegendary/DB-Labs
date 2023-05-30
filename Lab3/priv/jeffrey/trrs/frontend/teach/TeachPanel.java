@@ -11,8 +11,8 @@ import java.util.Vector;
 import static priv.jeffrey.trrs.frontend.teach.Action.*;
 
 public final class TeachPanel extends JPanel implements ActionListener {
-   static Box mainBox;
-   static JButton backButton;
+    static Box mainBox;
+    static JButton backButton;
     static JButton addButton;
     static JButton updateButton;
     static JButton deleteButton;
@@ -41,7 +41,7 @@ public final class TeachPanel extends JPanel implements ActionListener {
     static JButton deleteTeacherButton;
     static int count = 1;
 
-    public TeachPanel(){
+    public TeachPanel() {
         mainBox = Box.createVerticalBox();
         add(mainBox);
         backButton = new JButton();
@@ -72,7 +72,7 @@ public final class TeachPanel extends JPanel implements ActionListener {
         deleteTeacherButton.setText("删除教师");
         deleteTeacherButton.addActionListener(this);
         mainBox.add(deleteTeacherButton);
-        
+
         courseIdLabel = new JLabel();
         courseIdLabel.setText("课程编号");
         courseIdTextField = new JTextField();
@@ -123,28 +123,29 @@ public final class TeachPanel extends JPanel implements ActionListener {
         mainBox.add(courseSemesterBox);
         teacherIdTextFieldVector = new Vector<>();
         teacherHoursTextFieldVector = new Vector<>();
-        
-        
+
+
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource().equals(backButton)){
-            MainFrame.cardLayout.show(MainFrame.mainPanel,"Home");
-        }else if(e.getSource().equals(addTeacherButton)){
+        if (e.getSource().equals(backButton)) {
+            MainFrame.cardLayout.show(MainFrame.mainPanel, "Home");
+        } else if (e.getSource().equals(addTeacherButton)) {
             createTeacherComponent();
-        }else if(e.getSource().equals(deleteTeacherButton)) {
+        } else if (e.getSource().equals(deleteTeacherButton)) {
             deleteTeacherComponent();
-        }else if(e.getSource().equals(addButton)) {
+        } else if (e.getSource().equals(addButton)) {
             addActionPerformed(this);
-        }else if(e.getSource().equals(updateButton)) {
+        } else if (e.getSource().equals(updateButton)) {
             updateActionPerformed(this);
-        }else if(e.getSource().equals(deleteButton)) {
+        } else if (e.getSource().equals(deleteButton)) {
             deleteActionPerformed(this);
-        }else if(e.getSource().equals(searchButton)) {
+        } else if (e.getSource().equals(searchButton)) {
             searchActionPerformed(this);
         }
     }
+
     static void deleteTeacherComponent() {
         if (count == 1) {
             return;
@@ -155,6 +156,7 @@ public final class TeachPanel extends JPanel implements ActionListener {
         count--;
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
+
     static void createTeacherComponent() {
         Box teacherBox = Box.createHorizontalBox();
         JLabel teacherIdLabel = new JLabel();
