@@ -31,7 +31,6 @@ public class CommitHandler extends DBConnector {
             preparedStatement.setFloat(5, projectExpense);
             preparedStatement.setInt(6, projectStartYear);
             preparedStatement.setInt(7, projectEndYear);
-
             connection.setAutoCommit(false);
             preparedStatement.executeUpdate();
             int count = 1;
