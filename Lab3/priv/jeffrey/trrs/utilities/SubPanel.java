@@ -10,25 +10,26 @@ import java.util.Objects;
 import java.util.Vector;
 
 public abstract class SubPanel extends JPanel implements ActionListener {
-    protected static Box mainBox;
-    static Box topMenuBox;
-    static Box bottomMenuBox;
-    protected static int teacherCount = 1;
-    protected static String fieldNo2 = "";
-    protected static Vector<JTextField> teacherIdTextFieldVector;
-    protected static Vector<JTextField> teacherNo2TextFieldVector;
-    protected static Vector<JTextField> panelInfoComponentVector;
-    protected static DatabaseConnector databaseConnector;
+    protected Box mainBox;
+    Box topMenuBox;
+    Box bottomMenuBox;
+    protected int teacherCount = 1;
+    protected String fieldNo2;
+    protected Vector<JTextField> teacherIdTextFieldVector;
+    protected Vector<JTextField> teacherNo2TextFieldVector;
+    protected Vector<JTextField> panelInfoComponentVector;
+    protected DatabaseConnector databaseConnector;
 
-    public SubPanel() {
+    public SubPanel(DatabaseConnector subDatabaseConnector,String subFieldNo2) {
         super();
-        mainBox = Box.createVerticalBox();
+        databaseConnector = subDatabaseConnector;
+        fieldNo2 = subFieldNo2;
         topMenuBox = Box.createHorizontalBox();
         bottomMenuBox = Box.createHorizontalBox();
         teacherIdTextFieldVector = new Vector<>();
         teacherNo2TextFieldVector = new Vector<>();
         panelInfoComponentVector = new Vector<>();
-
+        mainBox = Box.createVerticalBox();
         add(mainBox);
 
         mainBox.add(topMenuBox, 0);
@@ -57,6 +58,7 @@ public abstract class SubPanel extends JPanel implements ActionListener {
             bottomMenuBox.add(Box.createHorizontalStrut(10));
         }
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("返回")) {
@@ -79,12 +81,13 @@ public abstract class SubPanel extends JPanel implements ActionListener {
                 } else if (e.getActionCommand().equals("查询")) {
                     showSearchResult(Objects.requireNonNull(databaseConnector.search(getPanelInfo(false))));
                 }
-            } catch (SQLException|IllegalArgumentException e_sql) {
+            } catch (SQLException | IllegalArgumentException e_sql) {
                 JOptionPane.showMessageDialog(this, e_sql.getMessage());
                 e_sql.printStackTrace();
             }
         }
     }
+
     protected void createTeacherComponent(String blankNo2) {
         MyBox teacherIdBox = new MyBox("教师 " + teacherCount + " 工号");
         MyBox teacherNo2Box = new MyBox("教师 " + teacherCount + blankNo2);
@@ -95,6 +98,7 @@ public abstract class SubPanel extends JPanel implements ActionListener {
         mainBox.add(teacherNo2Box, -1);
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
+
     protected void deleteTeacherComponent() {
         if (teacherCount <= 1) {
             return;
@@ -106,7 +110,9 @@ public abstract class SubPanel extends JPanel implements ActionListener {
         teacherCount--;
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
+
     abstract protected Vector<Vector<String>> getPanelInfo(boolean isAddUpdate);
+
     abstract protected void showSearchResult(Vector<Vector<Object>> searchResult);
 
 }

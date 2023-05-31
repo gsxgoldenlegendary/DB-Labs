@@ -6,10 +6,8 @@ import priv.jeffrey.trrs.utilities.MyBox;
 import priv.jeffrey.trrs.utilities.SubPanel;
 
 import javax.swing.*;
-
 import java.awt.event.ActionListener;
 import java.util.Vector;
-
 
 public final class TeachPanel extends SubPanel implements ActionListener {
     static MyBox courseIdBox;
@@ -19,19 +17,8 @@ public final class TeachPanel extends SubPanel implements ActionListener {
     static MyBox courseYearBox;
     static MyBox courseSemesterBox;
 
-
-    public static void main(String[] args) {
-        JFrame mainFrame = new JFrame();
-        mainFrame.add(new TeachPanel());
-        mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setBounds(100, 100, 600, 600);
-    }
-
     public TeachPanel() {
-        super();
-        databaseConnector =new TeachHandler();
-        fieldNo2 = " 学时";
+        super(new TeachHandler()," 学时");
         courseIdBox = new MyBox("课程编号");
         mainBox.add(courseIdBox);
         panelInfoComponentVector.add(courseIdBox.textField);
@@ -102,8 +89,8 @@ public final class TeachPanel extends SubPanel implements ActionListener {
         int sum = 0;
         for (int i = 0; i < teacherCount - 1; i++) {
             String teacherId = teacherIdTextFieldVector.get(i).getText();
-            if (teacherId.length() > 255 || teacherId.length() < 1) {
-                throw new IllegalArgumentException("教师编号长度不合法");
+            if (teacherId.length() > 5 || teacherId.length() < 1) {
+                throw new IllegalArgumentException("教师工号长度不合法");
             }
             teacherIdList.add(teacherId);
             int teacherHours;
@@ -129,7 +116,7 @@ public final class TeachPanel extends SubPanel implements ActionListener {
     @Override
     protected void showSearchResult(Vector<Vector<Object>> searchResult) {
         if (searchResult.size() <= 1) {
-            JOptionPane.showMessageDialog(this, "无结果");
+            JOptionPane.showMessageDialog(this,"未找到符合条件的记录。","提示",JOptionPane.INFORMATION_MESSAGE);
         } else {
             TeachPanel.courseIdBox.textField.setText(searchResult.get(0).get(0).toString());
             TeachPanel.courseNameBox.textField.setText(searchResult.get(0).get(1).toString());
@@ -145,7 +132,7 @@ public final class TeachPanel extends SubPanel implements ActionListener {
                 teacherIdTextFieldVector.get(i - 1).setText(searchResult.get(i).get(0).toString());
                 teacherNo2TextFieldVector.get(i - 1).setText(searchResult.get(i).get(1).toString());
             }
-            JOptionPane.showMessageDialog(this, "查询成功!");
+            JOptionPane.showMessageDialog(this,"查询成功！","提示",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

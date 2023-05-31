@@ -1,6 +1,15 @@
 USE trrs;
 
-DROP TABLE IF EXISTS trrs.teach;
+CREATE TABLE course
+(
+    id       CHARACTER(255),
+    name     CHARACTER(255),
+    hours    INTEGER,
+    property INTEGER,
+
+    CONSTRAINT course_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE teach
 (
     course_id    CHARACTER(255),

@@ -75,7 +75,6 @@ public class TeachHandler extends DatabaseConnector {
                 row.add(resultSet.getInt("property"));
                 result.add(row);
             }
-            preparedStatement.close();
             preparedStatement = connection.prepareStatement(TEACH_SEARCH_ROUTINE);
             preparedStatement.setString(1, panelInfo.get(0).get(0));
             resultSet = preparedStatement.executeQuery();
