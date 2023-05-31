@@ -28,7 +28,6 @@ public class SearchHandler extends DatabaseConnector {
     }
 
     private static void output(int startYear, int endYear) {
-
         try {
             File file = new File("output.md");
             OutputStream outputStream = new FileOutputStream(file, true);
@@ -76,7 +75,6 @@ public class SearchHandler extends DatabaseConnector {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static void action(
