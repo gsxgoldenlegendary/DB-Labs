@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
 
         cardLayout.show(mainPanel, "Home");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(960, 600);
+        setSize(600, 600);
         setLocationRelativeTo(null);
         setVisible(true);
     }

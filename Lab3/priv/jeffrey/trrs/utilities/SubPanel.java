@@ -71,18 +71,18 @@ public abstract class SubPanel extends JPanel implements ActionListener {
             try {
                 if (e.getActionCommand().equals("添加")) {
                     databaseConnector.insert(getPanelInfo(true));
-                    JOptionPane.showMessageDialog(this, "添加成功!");
+                    JOptionPane.showMessageDialog(this, "添加成功!", "提示", JOptionPane.INFORMATION_MESSAGE);
                 } else if (e.getActionCommand().equals("更新")) {
                     databaseConnector.update(getPanelInfo(true));
-                    JOptionPane.showMessageDialog(this, "更新成功!");
+                    JOptionPane.showMessageDialog(this, "更新成功!", "提示", JOptionPane.INFORMATION_MESSAGE);
                 } else if (e.getActionCommand().equals("删除")) {
                     databaseConnector.delete(getPanelInfo(false));
-                    JOptionPane.showMessageDialog(this, "删除成功!");
+                    JOptionPane.showMessageDialog(this, "删除成功!", "提示", JOptionPane.INFORMATION_MESSAGE);
                 } else if (e.getActionCommand().equals("查询")) {
                     showSearchResult(Objects.requireNonNull(databaseConnector.search(getPanelInfo(false))));
                 }
             } catch (SQLException | IllegalArgumentException e_sql) {
-                JOptionPane.showMessageDialog(this, e_sql.getMessage());
+                JOptionPane.showMessageDialog(this, e_sql.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
                 e_sql.printStackTrace();
             }
         }

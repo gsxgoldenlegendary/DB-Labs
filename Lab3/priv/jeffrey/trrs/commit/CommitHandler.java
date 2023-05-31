@@ -93,7 +93,6 @@ public class CommitHandler extends DatabaseConnector {
             }
             resultSet.close();
             preparedStatement.close();
-            System.out.println(result);
             return result;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package priv.jeffrey.trrs.search;
 
+import priv.jeffrey.trrs.enums.*;
 import priv.jeffrey.trrs.utilities.DatabaseConnector;
 
 import java.io.*;
@@ -26,11 +27,10 @@ public class SearchHandler extends DatabaseConnector {
             e.printStackTrace();
         }
     }
-
     private static void output(int startYear, int endYear) {
         try {
             File file = new File("output.md");
-            OutputStream outputStream = new FileOutputStream(file, true);
+            OutputStream outputStream = new FileOutputStream(file);
             String title = "# 教师教学科研工作统计（" + startYear + "-" + endYear + "）\n";
             outputStream.write(title.getBytes());
             String teacherInfo = "## 教师基本信息\n" +
@@ -39,19 +39,23 @@ public class SearchHandler extends DatabaseConnector {
                     "| " + teacherInfoVector.get(0) + " | " + teacherInfoVector.get(1) + " | "
                     + teacherInfoVector.get(2) + " | " + teacherInfoVector.get(3) + " |\n";
             outputStream.write(teacherInfo.getBytes());
-            String teachInfo = "## 教师授课信息\n" +
-                    "| 课程编号 | 课程名称 | 课程总学时 | 课程性质 | 开课年份 | 开课学期 | 教师授课学时 |\n" +
-                    "| :------: | :------: | :--------: | :------: | :------: | :------: | :----------: |\n";
+            String teachInfo = """
+                    ## 教师授课信息
+                    | 课程编号 | 课程名称 | 课程总学时 | 课程性质 | 开课年份 | 开课学期 | 教师授课学时 |
+                    | :------: | :------: | :--------: | :------: | :------: | :------: | :----------: |
+                    """;
             outputStream.write(teachInfo.getBytes());
             for (Vector<String> vector : teachInfoVector) {
                 String temp = "| " + vector.get(0) + " | " + vector.get(1) + " | " + vector.get(2) + " | "
-                        + vector.get(3) + " | " + vector.get(4) + " | " + vector.get(5) + " | " + vector.get(6) + " |\n";
+                        + vector.get(3) + " | " + vector.get(4) + " | " + vector.get(5) + " | " + vector.get(6) + " " +
+                        "|\n";
                 outputStream.write(temp.getBytes());
             }
-            String publishInfo = "## 教师发表论文信息\n" +
-                    "| 论文编号 | 论文名称 | 论文来源 | 发表年份 | 论文类型 | 论文级别 | 作者排名 | 是否为通讯作者 |\n" +
-                    "| :------: | :------: | :------: | :------: | :------: | :------: | :------: | :--------------: " +
-                    "|\n";
+            String publishInfo = """
+                    ## 教师发表论文信息
+                    | 论文编号 | 论文名称 | 论文来源 | 发表年份 | 论文类型 | 论文级别 | 作者排名 | 是否为通讯作者 |
+                    | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :--------------: |
+                    """;
             outputStream.write(publishInfo.getBytes());
             for (Vector<String> vector : publishInfoVector) {
                 String temp = "| " + vector.get(0) + " | " + vector.get(1) + " | " + vector.get(2) + " | "
@@ -59,9 +63,11 @@ public class SearchHandler extends DatabaseConnector {
                         + " | " + vector.get(7) + " |\n";
                 outputStream.write(temp.getBytes());
             }
-            String commitInfo = "## 教师承担项目信息\n" +
-                    "| 项目编号 | 项目名称 | 项目来源 | 项目级别 | 开始时间 | 结束时间 | 总经费 | 承担经费 |\n" +
-                    "| :------: | :------: | :------: | :------: | :------: | :------: | :------: | :----------: |\n";
+            String commitInfo = """
+                    ## 教师承担项目信息
+                    | 项目编号 | 项目名称 | 项目来源 | 项目级别 | 总经费 | 开始时间 | 结束时间  | 承担经费 |
+                    | :------: | :------: | :------: | :------: | :------: | :------: | :------: | :----------: |
+                    """;
             outputStream.write(commitInfo.getBytes());
             for (Vector<String> vector : commitInfoVector) {
                 String temp = "| " + vector.get(0) + " | " + vector.get(1) + " | " + vector.get(2) + " | "
@@ -91,8 +97,8 @@ public class SearchHandler extends DatabaseConnector {
             while (resultSet.next()) {
                 teacherInfoVector.add(resultSet.getString("id"));
                 teacherInfoVector.add(resultSet.getString("name"));
-                teacherInfoVector.add(resultSet.getString("gender"));
-                teacherInfoVector.add(resultSet.getString("title"));
+                teacherInfoVector.add(Gender.values()[resultSet.getInt("gender")].toString());
+                teacherInfoVector.add(TeacherTitle.values()[resultSet.getInt("title")].toString());
             }
             preparedStatement.close();
             preparedStatement = connection.prepareStatement(TEACH_SEARCH_ROUTINE);
@@ -104,11 +110,11 @@ public class SearchHandler extends DatabaseConnector {
                 temp.add(resultSet.getString("course_id"));
                 temp.add(resultSet.getString("name"));
                 temp.add(resultSet.getString("hours"));
-                temp.add(resultSet.getString("property"));
+                temp.add(CourseProperty.values()[resultSet.getInt("property")].toString());
                 temp.add(resultSet.getString("year"));
-                temp.add(resultSet.getString("semester"));
+                temp.add(Semester.values()[resultSet.getInt("semester")].toString());
                 temp.add(resultSet.getString("commit_hours"));
-                if (Integer.parseInt(temp.get(3)) >= startYear && Integer.parseInt(temp.get(3)) <= endYear)
+                if (Integer.parseInt(temp.get(4)) >= startYear && Integer.parseInt(temp.get(4)) <= endYear)
                     teachInfoVector.add(temp);
             }
             preparedStatement.close();
@@ -122,10 +128,10 @@ public class SearchHandler extends DatabaseConnector {
                 temp.add(resultSet.getString("title"));
                 temp.add(resultSet.getString("source"));
                 temp.add(resultSet.getString("year"));
-                temp.add(resultSet.getString("type"));
-                temp.add(resultSet.getString("level"));
+                temp.add(PaperType.values()[resultSet.getInt("type")].toString());
+                temp.add(PaperLevel.values()[resultSet.getInt("ranking")].toString());
                 temp.add(resultSet.getString("ranking"));
-                temp.add(resultSet.getString("is_corresponding_author"));
+                temp.add(resultSet.getInt("is_corresponding_author") == 1 ? "是" : "否");
                 if (Integer.parseInt(temp.get(3)) >= startYear && Integer.parseInt(temp.get(3)) <= endYear)
                     publishInfoVector.add(temp);
             }
@@ -139,7 +145,7 @@ public class SearchHandler extends DatabaseConnector {
                 temp.add(resultSet.getString("project_id"));
                 temp.add(resultSet.getString("name"));
                 temp.add(resultSet.getString("source"));
-                temp.add(resultSet.getString("type"));
+                temp.add(ProjectType.values()[resultSet.getInt("type")].toString());
                 temp.add(resultSet.getString("funding"));
                 temp.add(resultSet.getString("start_year"));
                 temp.add(resultSet.getString("end_year"));

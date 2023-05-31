@@ -126,7 +126,7 @@ public class PublishPanel extends SubPanel implements ActionListener {
     @Override
     protected void showSearchResult(Vector<Vector<Object>> searchResult) {
         if(searchResult.size() == 0){
-            JOptionPane.showMessageDialog(null, "未找到相关论文。", "提示", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "未找到相关论文。", "提示", JOptionPane.INFORMATION_MESSAGE);
             return;
         }else{
             PublishPanel.paperIdBox.textField.setText(searchResult.get(0).get(0).toString());

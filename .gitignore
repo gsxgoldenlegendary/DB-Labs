@@ -1,3 +1,4 @@
 .idea/
 *.tar.xz
 out/
+output.md
