@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 public class TeachHandler extends DatabaseConnector {
-    private static final String COURSE_ADD_ROUTINE = "CALL course_add(?,?,?,?)";
-    private static final String TEACH_ADD_ROUTINE = "CALL teach_add(?,?,?,?,?,?)";
-    private static final String COURSE_UPDATE_ROUTINE = "CALL course_update(?,?,?,?)";
-    private static final String TEACH_UPDATE_ROUTINE = "CALL teach_update(?,?,?,?,?,?)";
-    private static final String TEACH_DELETE_ROUTINE = "CALL teach_delete(?)";
+    private static final String COURSE_ADD_ROUTINE = "CALL courseAdd(?,?,?,?)";
+    private static final String TEACH_ADD_ROUTINE = "CALL teachAdd(?,?,?,?,?,?)";
+    private static final String COURSE_UPDATE_ROUTINE = "CALL courseUpdate(?,?,?,?)";
+    private static final String TEACH_UPDATE_ROUTINE = "CALL teachUpdate(?,?,?,?,?,?)";
+    private static final String TEACH_DELETE_ROUTINE = "CALL teachDelete(?)";
     private static final String COURSE_SEARCH_ROUTINE = "SELECT * FROM course WHERE id = ?";
     private static final String TEACH_SEARCH_ROUTINE = "SELECT * FROM teach WHERE course_id = ?";
 

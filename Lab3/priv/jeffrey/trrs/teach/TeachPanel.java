@@ -76,7 +76,6 @@ public final class TeachPanel extends SubPanel implements ActionListener {
             throw new IllegalArgumentException("课程年份不合法");
         }
         int courseTerm = TeachPanel.courseSemesterBox.comboBox.getSelectedIndex();
-
         courseInfo.add(courseId);
         courseInfo.add(courseName);
         courseInfo.add(String.valueOf(courseTotalHours));

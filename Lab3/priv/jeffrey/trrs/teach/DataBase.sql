@@ -24,8 +24,8 @@ CREATE TABLE teach
 );
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS course_add//
-CREATE PROCEDURE course_add(
+DROP PROCEDURE IF EXISTS courseAdd//
+CREATE PROCEDURE courseAdd(
     IN courseId CHARACTER(255),
     IN courseName CHARACTER(255),
     IN courseHours INTEGER,
@@ -49,14 +49,14 @@ BEGIN
     END IF;
 
     IF s = 1 THEN
-        SIGNAL SQLSTATE '45201' SET MESSAGE_TEXT = '课程信息不匹配';
+        SIGNAL SQLSTATE '45200' SET MESSAGE_TEXT = '课程信息不匹配';
     END IF;
 END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS course_update//
-CREATE PROCEDURE course_update(
+DROP PROCEDURE IF EXISTS courseUpdate//
+CREATE PROCEDURE courseUpdate(
     IN courseId CHARACTER(255),
     IN courseName CHARACTER(255),
     IN courseHours INTEGER,
@@ -83,14 +83,14 @@ BEGIN
     END IF;
 
     IF s = 1 THEN
-        SIGNAL SQLSTATE '45220' SET MESSAGE_TEXT = '该课程不存在，无法更新。';
+        SIGNAL SQLSTATE '45201' SET MESSAGE_TEXT = '该课程不存在，无法更新。';
     END IF;
 END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS teach_add;
-CREATE PROCEDURE teach_add(
+DROP PROCEDURE IF EXISTS teachAdd;
+CREATE PROCEDURE teachAdd(
     IN teachCourseId CHARACTER(255),
     IN teachTeacherId CHARACTER(5),
     IN teachYear INTEGER,
@@ -119,9 +119,9 @@ BEGIN
         CASE s
             WHEN 1 THEN
                 SET @message_text = CONCAT('教师 ', CAST(teachRank AS CHAR), ' 不存在。');
-                SIGNAL SQLSTATE '45210' SET MESSAGE_TEXT = @message_text;
-            WHEN 2 THEN SIGNAL SQLSTATE '45211' SET MESSAGE_TEXT = '课程不存在。';
-            WHEN 3 THEN SIGNAL SQLSTATE '45212' SET MESSAGE_TEXT = '该授课记录已经存在。';
+                SIGNAL SQLSTATE '45202' SET MESSAGE_TEXT = @message_text;
+            WHEN 2 THEN SIGNAL SQLSTATE '45203' SET MESSAGE_TEXT = '课程不存在。';
+            WHEN 3 THEN SIGNAL SQLSTATE '45204' SET MESSAGE_TEXT = '该授课记录已经存在。';
             END CASE;
     END IF;
 
@@ -129,8 +129,8 @@ END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS teach_update;
-CREATE PROCEDURE teach_update(
+DROP PROCEDURE IF EXISTS teachUpdate;
+CREATE PROCEDURE teachUpdate(
     IN teachCourseId CHARACTER(255),
     IN teachTeacherId CHARACTER(5),
     IN teachYear INTEGER,
@@ -148,6 +148,10 @@ BEGIN
         SET s = 2;
     END IF;
 
+    IF NOT EXISTS(SELECT * FROM teach WHERE teach.teacher_id = teachTeacherId AND teach.course_id = teachCourseId) THEN
+        SET s = 3;
+    END IF;
+
     IF s = 0 THEN
         UPDATE teach
         SET teach.year = teachYear
@@ -158,17 +162,17 @@ BEGIN
     ELSE
         CASE s
             WHEN 1 THEN SET @message_text = CONCAT('教师 ', CAST(teachRank AS CHAR), ' 不存在。');
-                        SIGNAL SQLSTATE '45210' SET MESSAGE_TEXT = @message_text;
-            WHEN 2 THEN SIGNAL SQLSTATE '45211' SET MESSAGE_TEXT = '课程不存在。';
+                        SIGNAL SQLSTATE '45205' SET MESSAGE_TEXT = @message_text;
+            WHEN 2 THEN SIGNAL SQLSTATE '45206' SET MESSAGE_TEXT = '课程不存在。';
+            WHEN 3 THEN SIGNAL SQLSTATE '45207' SET MESSAGE_TEXT = '该授课记录不存在。';
             END CASE;
     END IF;
-
 END //
 DELIMITER ;
 
 DELIMITER //
-DROP PROCEDURE IF EXISTS teach_delete;
-CREATE PROCEDURE teach_delete(
+DROP PROCEDURE IF EXISTS teachDelete;
+CREATE PROCEDURE teachDelete(
     IN c_id CHARACTER(255)
 )
 BEGIN
