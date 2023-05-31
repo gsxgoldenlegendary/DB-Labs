@@ -1,23 +1,25 @@
 package priv.jeffrey.trrs.frontend.utilities;
 
-import priv.jeffrey.trrs.backend.DBConnector;
+import priv.jeffrey.trrs.backend.DatabaseConnector;
 import priv.jeffrey.trrs.frontend.home.MainFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.Vector;
 
-public abstract class SubPanel extends JPanel implements ActionListener, Action {
-    static Box mainBox;
+public abstract class SubPanel extends JPanel implements ActionListener {
+    protected static Box mainBox;
     static Box topMenuBox;
     static Box bottomMenuBox;
-    static int teacherCount = 1;
-    static String fieldNo2 = "";
-    static Vector<JTextField> teacherIdTextFieldVector;
-    static Vector<JTextField> teacherNo2TextFieldVector;
-    static Vector<JTextField> panelInfoTextFieldVector;
+    protected static int teacherCount = 1;
+    protected static String fieldNo2 = "";
+    protected static Vector<JTextField> teacherIdTextFieldVector;
+    protected static Vector<JTextField> teacherNo2TextFieldVector;
+    protected static Vector<JTextField> panelInfoComponentVector;
+    protected static DatabaseConnector databaseConnector;
 
     public SubPanel() {
         super();
@@ -26,6 +28,7 @@ public abstract class SubPanel extends JPanel implements ActionListener, Action 
         bottomMenuBox = Box.createHorizontalBox();
         teacherIdTextFieldVector = new Vector<>();
         teacherNo2TextFieldVector = new Vector<>();
+        panelInfoComponentVector = new Vector<>();
 
         add(mainBox);
 
@@ -55,7 +58,6 @@ public abstract class SubPanel extends JPanel implements ActionListener, Action 
             bottomMenuBox.add(Box.createHorizontalStrut(10));
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("返回")) {
@@ -64,10 +66,27 @@ public abstract class SubPanel extends JPanel implements ActionListener, Action 
             createTeacherComponent(fieldNo2);
         } else if (e.getActionCommand().equals("删除教师")) {
             deleteTeacherComponent();
+        } else {
+            try {
+                if (e.getActionCommand().equals("添加")) {
+                    databaseConnector.insert(getPanelInfo(true));
+                    JOptionPane.showMessageDialog(this, "添加成功!");
+                } else if (e.getActionCommand().equals("更新")) {
+                    databaseConnector.update(getPanelInfo(true));
+                    JOptionPane.showMessageDialog(this, "更新成功!");
+                } else if (e.getActionCommand().equals("删除")) {
+                    databaseConnector.delete(getPanelInfo(false));
+                    JOptionPane.showMessageDialog(this, "删除成功!");
+                } else if (e.getActionCommand().equals("查询")) {
+                    showSearchResult(Objects.requireNonNull(databaseConnector.search(getPanelInfo(false))));
+                }
+            } catch (SQLException|IllegalArgumentException e_sql) {
+                JOptionPane.showMessageDialog(this, e_sql.getMessage());
+                e_sql.printStackTrace();
+            }
         }
     }
-
-    static void createTeacherComponent(String blankNo2) {
+    protected void createTeacherComponent(String blankNo2) {
         MyBox teacherIdBox = new MyBox("教师 " + teacherCount + " 工号");
         MyBox teacherNo2Box = new MyBox("教师 " + teacherCount + blankNo2);
         teacherCount++;
@@ -77,8 +96,7 @@ public abstract class SubPanel extends JPanel implements ActionListener, Action 
         mainBox.add(teacherNo2Box, -1);
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
-
-    static void deleteTeacherComponent() {
+    protected void deleteTeacherComponent() {
         if (teacherCount <= 1) {
             return;
         }
@@ -89,68 +107,7 @@ public abstract class SubPanel extends JPanel implements ActionListener, Action 
         teacherCount--;
         SwingUtilities.updateComponentTreeUI(mainBox);
     }
+    abstract protected Vector<Vector<String>> getPanelInfo(boolean isAddUpdate);
+    abstract protected void showSearchResult(Vector<Vector<Object>> searchResult);
 
-    abstract Vector<Vector<Object>> getPanelInfo();
-
-    void showSearchResult(Vector<Vector<Object>> searchResult) {
-        if (searchResult.size() <= 1) {
-            JOptionPane.showMessageDialog(this, "无结果");
-        } else {
-            for (int i = 0; i < searchResult.get(0).size(); i++) {
-                panelInfoTextFieldVector.get(i).setText(searchResult.get(0).get(i).toString());
-            }
-            while (teacherCount > 1) {
-                deleteTeacherComponent();
-            }
-            for (int i = 1; i < searchResult.size(); i++) {
-                createTeacherComponent(fieldNo2);
-                teacherIdTextFieldVector.get(i - 1).setText(searchResult.get(i).get(0).toString());
-                teacherNo2TextFieldVector.get(i - 1).setText(searchResult.get(i).get(1).toString());
-            }
-            JOptionPane.showMessageDialog(this, "查询成功!");
-        }
-    }
-
-    @Override
-    public void addActionPerformed(JPanel panel, DBConnector connector) {
-        try {
-            connector.add(getPanelInfo());
-            JOptionPane.showMessageDialog(panel, "添加成功!");
-        } catch (IllegalArgumentException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateActionPerformed(JPanel panel, DBConnector connector) {
-        try {
-            connector.update(getPanelInfo());
-            JOptionPane.showMessageDialog(panel, "修改成功!");
-        } catch (IllegalArgumentException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteActionPerformed(JPanel panel, DBConnector connector) {
-        try {
-            connector.delete(getPanelInfo());
-            JOptionPane.showMessageDialog(panel, "删除成功!");
-        } catch (IllegalArgumentException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void searchActionPerformed(JPanel panel, DBConnector connector) {
-        try {
-            showSearchResult(connector.search(getPanelInfo()));
-        } catch (IllegalArgumentException | SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }

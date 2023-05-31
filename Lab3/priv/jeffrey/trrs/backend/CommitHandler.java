@@ -3,7 +3,7 @@ package priv.jeffrey.trrs.backend;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class CommitHandler extends DBConnector {
+public class CommitHandler extends DatabaseConnector {
     private static final String PROJECT_ADD_ROUTINE = "CALL projectAdd(?,?,?,?,?,?,?)";
     private static final String COMMIT_ADD_ROUTINE = "CALL commitAdd(?,?,?,?)";
     private static final String PROJECT_UPDATE_ROUTINE = "CALL projectUpdate(?,?,?,?,?,?,?)";

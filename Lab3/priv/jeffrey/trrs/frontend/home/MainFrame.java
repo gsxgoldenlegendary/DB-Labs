@@ -2,7 +2,7 @@ package priv.jeffrey.trrs.frontend.home;
 
 import priv.jeffrey.trrs.frontend.commit.CommitPanel;
 import priv.jeffrey.trrs.frontend.publish.PublishPanel;
-import priv.jeffrey.trrs.frontend.teach.TeachPanel;
+import priv.jeffrey.trrs.teach.TeachPanel;
 
 import javax.swing.*;
 

@@ -4,7 +4,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class SearchHandler extends DBConnector {
+public class SearchHandler extends DatabaseConnector {
     private static final String TEACHER_SEARCH_ROUTINE = "SELECT * FROM teacher WHERE id = ?";
     private static final String TEACH_SEARCH_ROUTINE =
             "SELECT * FROM (teach JOIN course ON teach.course_id = course.id) WHERE teacher_id = ?";
