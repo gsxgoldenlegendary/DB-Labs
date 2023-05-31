@@ -15,10 +15,12 @@ public class SearchPanel extends JPanel implements ActionListener {
     static MyBox startYearBox;
     static MyBox endYearBox;
     static JButton searchButton;
+    private static final String scoreOfBlanks = "                                        ";
 
     public SearchPanel() {
         mainBox = Box.createVerticalBox();
         add(mainBox);
+        mainBox.add(new JLabel(scoreOfBlanks));
         homeButton = new JButton("返回");
         homeButton.addActionListener(this);
         mainBox.add(homeButton);
@@ -63,7 +65,7 @@ public class SearchPanel extends JPanel implements ActionListener {
             try {
                 SearchHandler.action(teacherId, startYear, endYear);
                 JOptionPane.showMessageDialog(null, "查询成功，结果已输出到文件。", "成功", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException ex) {
+            } catch (SQLException |IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             }
         }

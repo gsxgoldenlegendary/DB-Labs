@@ -45,6 +45,7 @@ public class PublishHandler extends DatabaseConnector {
                 false
         );
     }
+
     @Override
     public void delete(Vector<Vector<String>> panelInfo) throws SQLException {
         try {
@@ -59,7 +60,8 @@ public class PublishHandler extends DatabaseConnector {
             closeConnection();
         }
     }
-@Override
+
+    @Override
     public Vector<Vector<Object>> search(Vector<Vector<String>> panelInfo) throws SQLException {
         Vector<Vector<Object>> result = new Vector<>();
         try {
@@ -85,7 +87,7 @@ public class PublishHandler extends DatabaseConnector {
                 Vector<Object> temp = new Vector<>();
                 temp.add(resultSet.getString("teacher_id"));
                 temp.add(resultSet.getString("ranking"));
-                if(resultSet.getInt("is_corresponding_author") == 1) {
+                if (resultSet.getInt("is_corresponding_author") == 1) {
                     result.get(0).add(temp.get(0));
                 }
                 result.add(temp);
@@ -98,6 +100,7 @@ public class PublishHandler extends DatabaseConnector {
         }
         return result;
     }
+
     public static void actionAddUpdate(
             int paperId,
             String paperTitle,
@@ -136,7 +139,7 @@ public class PublishHandler extends DatabaseConnector {
                 preparedStatement.setString(2, teacherIdList.get(i));
                 preparedStatement.setInt(3, Integer.parseInt(teacherRankList.get(i)));
                 preparedStatement.setInt(4, correspondingAuthor.equals(teacherIdList.get(i)) ? 1 : 0);
-                preparedStatement.setInt(5, i);
+                preparedStatement.setInt(5, i + 1);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             }

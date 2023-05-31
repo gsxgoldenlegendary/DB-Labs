@@ -135,7 +135,7 @@ public class TeachHandler extends DatabaseConnector {
                 preparedStatement.setInt(3, courseYear);
                 preparedStatement.setInt(4, courseTerm);
                 preparedStatement.setInt(5, Integer.parseInt(teacherHoursList.get(i)));
-                preparedStatement.setInt(6, i);
+                preparedStatement.setInt(6, i + 1);
                 preparedStatement.executeUpdate();
                 preparedStatement.close();
             }

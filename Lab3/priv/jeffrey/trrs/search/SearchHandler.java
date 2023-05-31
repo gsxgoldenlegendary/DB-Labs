@@ -3,6 +3,7 @@ package priv.jeffrey.trrs.search;
 import priv.jeffrey.trrs.enums.*;
 import priv.jeffrey.trrs.utilities.DatabaseConnector;
 
+import javax.swing.*;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -150,10 +151,13 @@ public class SearchHandler extends DatabaseConnector {
                 temp.add(resultSet.getString("start_year"));
                 temp.add(resultSet.getString("end_year"));
                 temp.add(resultSet.getString("commit_funding"));
-                if (Integer.parseInt(temp.get(6)) >= startYear || Integer.parseInt(temp.get(5)) <= endYear)
+                if (Integer.parseInt(temp.get(6)) >= startYear && Integer.parseInt(temp.get(5)) <= endYear)
                     commitInfoVector.add(temp);
             }
             preparedStatement.close();
+            if(teacherInfoVector.size() == 0) {
+                throw new IllegalArgumentException("教师不存在。");
+            }
             output(startYear, endYear);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
