@@ -1,9 +1,9 @@
 package priv.jeffrey.trrs.teach;
 
-import priv.jeffrey.trrs.backend.enums.CourseProperty;
-import priv.jeffrey.trrs.backend.enums.Semester;
-import priv.jeffrey.trrs.frontend.utilities.MyBox;
-import priv.jeffrey.trrs.frontend.utilities.SubPanel;
+import priv.jeffrey.trrs.enums.CourseProperty;
+import priv.jeffrey.trrs.enums.Semester;
+import priv.jeffrey.trrs.utilities.MyBox;
+import priv.jeffrey.trrs.utilities.SubPanel;
 
 import javax.swing.*;
 

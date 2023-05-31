@@ -1,6 +1,6 @@
 package priv.jeffrey.trrs.teach;
 
-import priv.jeffrey.trrs.backend.DatabaseConnector;
+import priv.jeffrey.trrs.utilities.DatabaseConnector;
 
 import java.sql.SQLException;
 import java.util.Vector;
