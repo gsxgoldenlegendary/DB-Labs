@@ -85,9 +85,7 @@ public class CommitHandler extends DatabaseConnector {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Vector<Object> row = new Vector<>();
-                row.add(resultSet.getString("project_id"));
                 row.add(resultSet.getString("teacher_id"));
-                row.add(resultSet.getString("ranking"));
                 row.add(resultSet.getString("commit_funding"));
                 result.add(row);
             }

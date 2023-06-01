@@ -56,7 +56,7 @@ BEGIN
         END IF;
     END IF;
 
-    IF s=1 THEN SIGNAL SQLSTATE '45101' SET MESSAGE_TEXT = '该项目已存在，但是信息不一致'; END IF;
+    IF s = 1 THEN SIGNAL SQLSTATE '45101' SET MESSAGE_TEXT = '该项目已存在，但是信息不一致'; END IF;
 END //
 DELIMITER ;
 
@@ -163,9 +163,11 @@ BEGIN
     END IF;
 
     IF s = 0 THEN
-        UPDATE commit SET commit.commit_funding = t_expense
+        UPDATE commit
+        SET commit.commit_funding = t_expense
             AND commit.ranking = t_rank
-        WHERE commit.project_id = p_id AND commit.teacher_id = t_id;
+        WHERE commit.project_id = p_id
+          AND commit.teacher_id = t_id;
     ELSE
         CASE s
             WHEN 1 THEN SIGNAL SQLSTATE '45101' SET MESSAGE_TEXT = '项目不存在。';

@@ -124,7 +124,6 @@ BEGIN
             WHEN 3 THEN SIGNAL SQLSTATE '45204' SET MESSAGE_TEXT = '该授课记录已经存在。';
             END CASE;
     END IF;
-
 END //
 DELIMITER ;
 
