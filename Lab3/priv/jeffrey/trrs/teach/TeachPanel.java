@@ -43,12 +43,24 @@ public final class TeachPanel extends SubPanel implements ActionListener {
     protected Vector<Vector<String>> getPanelInfo(boolean isAddUpdate) {
         Vector<Vector<String>> result = new Vector<>();
         Vector<String> courseInfo = new Vector<>();
-        String courseId = TeachPanel.courseIdBox.textField.getText();
+        String courseId = TeachPanel.courseIdBox.textField.getText().strip();
         if (courseId.length() > 255 || courseId.length() < 1) {
             throw new IllegalArgumentException("课程编号长度不合法");
         }
+        int courseYear;
+        try {
+            courseYear = Integer.parseInt(TeachPanel.courseYearBox.textField.getText());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("课程年份不合法");
+        }
+        if (courseYear < 0) {
+            throw new IllegalArgumentException("课程年份不合法");
+        }
+        int courseTerm = TeachPanel.courseSemesterBox.comboBox.getSelectedIndex();
         if (!isAddUpdate) {
             courseInfo.add(courseId);
+            courseInfo.add(String.valueOf(courseYear));
+            courseInfo.add(String.valueOf(courseTerm));
             result.add(courseInfo);
             return result;
         }
@@ -62,20 +74,10 @@ public final class TeachPanel extends SubPanel implements ActionListener {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("课程总学时数不合法");
         }
-        if (courseTotalHours < 0) {
+        if (courseTotalHours <= 0) {
             throw new IllegalArgumentException("课程总学时数不合法");
         }
         int courseProperty = TeachPanel.coursePropertyBox.comboBox.getSelectedIndex();
-        int courseYear;
-        try {
-            courseYear = Integer.parseInt(TeachPanel.courseYearBox.textField.getText());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("课程年份不合法");
-        }
-        if (courseYear < 0) {
-            throw new IllegalArgumentException("课程年份不合法");
-        }
-        int courseTerm = TeachPanel.courseSemesterBox.comboBox.getSelectedIndex();
         courseInfo.add(courseId);
         courseInfo.add(courseName);
         courseInfo.add(String.valueOf(courseTotalHours));
@@ -98,7 +100,7 @@ public final class TeachPanel extends SubPanel implements ActionListener {
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("教师学时数不合法");
             }
-            if (teacherHours < 0) {
+            if (teacherHours <= 0) {
                 throw new IllegalArgumentException("教师学时数不合法");
             }
             sum += teacherHours;

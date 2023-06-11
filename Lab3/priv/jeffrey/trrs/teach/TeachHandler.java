@@ -12,7 +12,7 @@ public class TeachHandler extends DatabaseConnector {
     private static final String TEACH_UPDATE_ROUTINE = "CALL teachUpdate(?,?,?,?,?,?)";
     private static final String TEACH_DELETE_ROUTINE = "CALL teachDelete(?)";
     private static final String COURSE_SEARCH_ROUTINE = "SELECT * FROM course WHERE id = ?";
-    private static final String TEACH_SEARCH_ROUTINE = "SELECT * FROM teach WHERE course_id = ?";
+    private static final String TEACH_SEARCH_ROUTINE = "SELECT * FROM teach WHERE course_id = ? AND year = ? AND semester = ?";
 
     @Override
     public void insert(Vector<Vector<String>> panelInfo) throws SQLException {
@@ -31,17 +31,8 @@ public class TeachHandler extends DatabaseConnector {
 
     @Override
     public void update(Vector<Vector<String>> panelInfo) throws SQLException {
-        actionAddUpdate(
-                panelInfo.get(0).get(0),
-                panelInfo.get(0).get(1),
-                Integer.parseInt(panelInfo.get(0).get(2)),
-                Integer.parseInt(panelInfo.get(0).get(3)),
-                Integer.parseInt(panelInfo.get(0).get(4)),
-                Integer.parseInt(panelInfo.get(0).get(5)),
-                panelInfo.get(1),
-                panelInfo.get(2),
-                false
-        );
+        delete(panelInfo);
+        insert(panelInfo);
     }
 
     @Override
@@ -77,6 +68,8 @@ public class TeachHandler extends DatabaseConnector {
             }
             preparedStatement = connection.prepareStatement(TEACH_SEARCH_ROUTINE);
             preparedStatement.setString(1, panelInfo.get(0).get(0));
+            preparedStatement.setInt(2, Integer.parseInt(panelInfo.get(0).get(1)));
+            preparedStatement.setInt(3, Integer.parseInt(panelInfo.get(0).get(2)));
             resultSet = preparedStatement.executeQuery();
             boolean flag = false;
             while (resultSet.next()) {

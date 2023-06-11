@@ -46,7 +46,7 @@ public class CommitPanel extends SubPanel implements ActionListener {
     protected Vector<Vector<String>> getPanelInfo(boolean isAddUpdate) {
         Vector<Vector<String>> result = new Vector<>();
         Vector<String> projectInfo = new Vector<>();
-        String projectId = projectIdBox.textField.getText();
+        String projectId = projectIdBox.textField.getText().strip();
         if (projectId.length() > 255 || projectId.length() < 1) {
             throw new IllegalArgumentException("项目编号长度不合法");
         }
@@ -68,6 +68,9 @@ public class CommitPanel extends SubPanel implements ActionListener {
         try {
             totalExpense = Float.parseFloat(totalExpenseBox.textField.getText());
         } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("项目经费格式不合法");
+        }
+        if (totalExpense <= 0) {
             throw new IllegalArgumentException("项目经费格式不合法");
         }
         int projectStartYear;
@@ -108,13 +111,13 @@ public class CommitPanel extends SubPanel implements ActionListener {
                 throw new IllegalArgumentException("教师工号长度不合法");
             }
             teacherIdList.add(teacherId);
-            int teacherExpense;
+            float teacherExpense;
             try {
-                teacherExpense = Integer.parseInt(teacherNo2TextFieldVector.get(i).getText());
+                teacherExpense = Float.parseFloat(teacherNo2TextFieldVector.get(i).getText());
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("教师经费不合法");
             }
-            if (teacherExpense < 0) {
+            if (teacherExpense <= 0) {
                 throw new IllegalArgumentException("教师经费不合法");
             }
             sum += teacherExpense;

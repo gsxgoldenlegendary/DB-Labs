@@ -32,18 +32,8 @@ public class PublishHandler extends DatabaseConnector {
 
     @Override
     public void update(Vector<Vector<String>> panelInfo) throws SQLException {
-        actionAddUpdate(
-                Integer.parseInt(panelInfo.get(0).get(0)),
-                panelInfo.get(0).get(1),
-                panelInfo.get(0).get(2),
-                Integer.parseInt(panelInfo.get(0).get(3)),
-                Integer.parseInt(panelInfo.get(0).get(4)),
-                Integer.parseInt(panelInfo.get(0).get(5)),
-                panelInfo.get(0).get(6),
-                panelInfo.get(1),
-                panelInfo.get(2),
-                false
-        );
+        delete(panelInfo);
+        insert(panelInfo);
     }
 
     @Override

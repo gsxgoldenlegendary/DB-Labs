@@ -42,8 +42,9 @@ public class MainFrame extends JFrame {
         mainPanel.add(searchPanel, "Search");
 
         cardLayout.show(mainPanel, "Home");
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 600);
+        setSize(960, 540);
         setLocationRelativeTo(null);
         setVisible(true);
     }

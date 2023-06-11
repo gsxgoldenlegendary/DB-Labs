@@ -47,7 +47,7 @@ public class PublishPanel extends SubPanel implements ActionListener {
     protected Vector<Vector<String>> getPanelInfo(boolean isAddUpdate) {
         Vector<Vector<String>> result = new Vector<>();
         Vector<String> paperInfo = new Vector<>();
-        String paperId = PublishPanel.paperIdBox.textField.getText();
+        String paperId = PublishPanel.paperIdBox.textField.getText().strip();
         if (paperId.length() > 255 || paperId.length() < 1) {
             throw new IllegalArgumentException("论文序号长度不合法。");
         }
